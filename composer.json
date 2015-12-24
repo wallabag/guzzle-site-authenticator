@@ -1,0 +1,12 @@
+{
+    "name": "bdunogier/guzzle-site-authenticator-bundle",
+    "require": {
+        "j0k3r/graby": "^1.0"
+    },
+    "authors": [
+        {
+            "name": "Bertrand Dunogier",
+            "email": "bertrand.dunogier@gmail.com"
+        }
+    ]
+}
