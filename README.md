@@ -54,10 +54,10 @@ parameters:
     example.com:
       host: "example.com"
       loginUri: "http://example.com/login"
-      username_field: "username"
-      password_field: "password"
-      extra_fields: {action: login}
-      not_logged_in_xpath: "//div[@class='not-logged-in']"
+      usernameField: "username"
+      passwordField: "password"
+      extraFields: {action: login}
+      notLoggedInXpath: "//div[@class='not-logged-in']"
     otherexample.com:
       host: ...
 ```
