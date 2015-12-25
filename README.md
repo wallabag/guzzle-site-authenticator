@@ -1,5 +1,7 @@
 # Guzzle site authenticator
 
+[![Build Status](https://travis-ci.org/bdunogier/guzzle-site-authenticator.svg)](https://travis-ci.org/bdunogier/guzzle-site-authenticator)
+
 This package is a plugin for [guzzle](http://packagist.org/packages/guzzlehttp/guzzle) 5.x. It provides a subscriber that can authenticate requests by posting login information.
 
 It comes up as a Symfony bundle and a generic php lib.
