@@ -103,7 +103,7 @@ class AuthenticatorSubscriberSpec extends ObjectBehavior
         $authenticator->isLoginRequired(Argument::type('string'))->willReturn(true);
         $authenticator->login($guzzle)->shouldBeCalled();
         $completeEvent->retry()->shouldBeCalled();
-        
+
         $this->loginIfRequested($completeEvent);
     }
 }
