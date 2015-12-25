@@ -2,32 +2,32 @@
 /**
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace BD\GuzzleSiteAuthenticatorBundle\Guzzle;
+namespace BD\GuzzleSiteAuthenticator\Guzzle;
 
-use BD\GuzzleSiteAuthenticatorBundle\Authenticator\Factory;
-use Graby\SiteConfig\ConfigBuilder;
+use BD\GuzzleSiteAuthenticator\Authenticator\Factory;
+use BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfigBuilder;
 use GuzzleHttp\Event\SubscriberInterface;
 use GuzzleHttp\Event\BeforeEvent;
 use GuzzleHttp\Event\CompleteEvent;
-use GuzzleHttp\Message\Request;
 use GuzzleHttp\Message\RequestInterface;
 
 class AuthenticatorSubscriber implements SubscriberInterface
 {
     /**
-     * @var \Graby\SiteConfig\ConfigBuilder
+     * @var \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfigBuilder
      */
     private $configBuilder;
 
-    /** @var \BD\GuzzleSiteAuthenticatorBundle\Authenticator\Factory */
+    /** @var \BD\GuzzleSiteAuthenticator\Authenticator\Factory */
     private $authenticatorFactory;
 
     /**
      * AuthenticatorSubscriber constructor.
      *
-     * @param \Graby\SiteConfig\ConfigBuilder $configBuilder
+     * @param \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfigBuilder $configBuilder
+     * @param \BD\GuzzleSiteAuthenticator\Authenticator\Factory $authenticatorFactory
      */
-    public function __construct(ConfigBuilder $configBuilder, Factory $authenticatorFactory)
+    public function __construct(SiteConfigBuilder $configBuilder, Factory $authenticatorFactory)
     {
         $this->configBuilder = $configBuilder;
         $this->authenticatorFactory = $authenticatorFactory;
@@ -41,17 +41,17 @@ class AuthenticatorSubscriber implements SubscriberInterface
         ];
     }
 
-    public function loginIfRequired(BeforeEvent $event, $name)
+    public function loginIfRequired(BeforeEvent $event)
     {
         $request = $event->getRequest();
         $host = $request->getHost();
-        $client = $event->getClient();
 
         $config = $this->buildSiteConfig($event->getRequest());
-        if (!$config->requires_login) {
+        if (!$config->requiresLogin()) {
             return;
         }
 
+        $client = $event->getClient();
         $authenticator = $this->authenticatorFactory->buildFromSiteConfig($host, $config);
         if (!$authenticator->isLoggedIn($client)) {
             $emitter = $client->getEmitter();
@@ -61,10 +61,13 @@ class AuthenticatorSubscriber implements SubscriberInterface
         }
     }
 
-    public function loginIfRequested(CompleteEvent $event, $name)
+    public function loginIfRequested(CompleteEvent $event)
     {
         $html = $event->getResponse()->getBody();
         $config = $this->buildSiteConfig($event->getRequest());
+        if (!$config->requiresLogin()) {
+            return;
+        }
 
         $authenticator = $this->authenticatorFactory->buildFromSiteConfig($event->getRequest()->getHost(), $config);
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace BD\GuzzleSiteAuthenticatorBundle\Authenticator;
+namespace BD\GuzzleSiteAuthenticator\Authenticator;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Cookie\CookieJar;
@@ -39,10 +39,6 @@ class LoginFormAuthenticator implements Authenticator
             $this->formOptions['uri'],
             ['body' => $postFields, 'allow_redirects' => true, 'verify' => false]
         );
-
-        if (!$this->isLoggedIn($guzzle)) {
-            throw new Exception("Login to {$this->host} failed");
-        }
 
         return $this;
     }

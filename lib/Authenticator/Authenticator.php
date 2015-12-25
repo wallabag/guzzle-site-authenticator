@@ -1,6 +1,6 @@
 <?php
 
-namespace BD\GuzzleSiteAuthenticatorBundle\Authenticator;
+namespace BD\GuzzleSiteAuthenticator\Authenticator;
 
 use GuzzleHttp\ClientInterface;
 
@@ -9,7 +9,7 @@ interface Authenticator
     /**
      * Logs the configured user on the given Guzzle client.
      *
-     * @param \GuzzleHttp\Client $guzzle
+     * @param \GuzzleHttp\ClientInterface $guzzle
      *
      * @return self
      */
@@ -17,6 +17,8 @@ interface Authenticator
 
     /**
      * Checks if we are logged into the site, but without calling the server (e.g. do we have a Cookie).
+     *
+     * @param \GuzzleHttp\ClientInterface $guzzle
      *
      * @return bool
      */
