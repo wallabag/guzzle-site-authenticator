@@ -5,17 +5,16 @@
 namespace BD\GuzzleSiteAuthenticatorBundle\Guzzle;
 
 use BD\GuzzleSiteAuthenticatorBundle\Authenticator\Factory;
-use Graby\SiteConfig\ConfigBuilder;
+use BD\GuzzleSiteAuthenticatorBundle\SiteConfig\SiteConfigBuilder;
 use GuzzleHttp\Event\SubscriberInterface;
 use GuzzleHttp\Event\BeforeEvent;
 use GuzzleHttp\Event\CompleteEvent;
-use GuzzleHttp\Message\Request;
 use GuzzleHttp\Message\RequestInterface;
 
 class AuthenticatorSubscriber implements SubscriberInterface
 {
     /**
-     * @var \Graby\SiteConfig\ConfigBuilder
+     * @var \BD\GuzzleSiteAuthenticatorBundle\SiteConfig\SiteConfigBuilder
      */
     private $configBuilder;
 
@@ -25,9 +24,10 @@ class AuthenticatorSubscriber implements SubscriberInterface
     /**
      * AuthenticatorSubscriber constructor.
      *
-     * @param \Graby\SiteConfig\ConfigBuilder $configBuilder
+     * @param \BD\GuzzleSiteAuthenticatorBundle\SiteConfig\SiteConfigBuilder $configBuilder
+     * @param \BD\GuzzleSiteAuthenticatorBundle\Authenticator\Factory $authenticatorFactory
      */
-    public function __construct(ConfigBuilder $configBuilder, Factory $authenticatorFactory)
+    public function __construct(SiteConfigBuilder $configBuilder, Factory $authenticatorFactory)
     {
         $this->configBuilder = $configBuilder;
         $this->authenticatorFactory = $authenticatorFactory;
@@ -48,7 +48,7 @@ class AuthenticatorSubscriber implements SubscriberInterface
         $client = $event->getClient();
 
         $config = $this->buildSiteConfig($event->getRequest());
-        if (!$config->requires_login) {
+        if (!$config->requiresLogin()) {
             return;
         }
 

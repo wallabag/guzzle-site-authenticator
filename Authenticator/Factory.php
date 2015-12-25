@@ -2,8 +2,7 @@
 
 namespace BD\GuzzleSiteAuthenticatorBundle\Authenticator;
 
-use Graby\SiteConfig\SiteConfig;
-use GuzzleHttp\Client;
+use BD\GuzzleSiteAuthenticatorBundle\SiteConfig\SiteConfig;
 
 /**
  * Builds an Authenticator based on a SiteConfig.
@@ -26,7 +25,10 @@ class Factory
     }
 
     /**
-     * @return Authenticator
+     * @param $host
+     * @param \BD\GuzzleSiteAuthenticatorBundle\SiteConfig\SiteConfig $siteConfig
+     *
+     * @return \BD\GuzzleSiteAuthenticatorBundle\Authenticator\Authenticator
      * @throw \OutOfRangeException if there are no credentials for this host
      */
     public function buildFromSiteConfig($host, SiteConfig $siteConfig)
@@ -34,11 +36,11 @@ class Factory
         $authenticator = new LoginFormAuthenticator(
             $host,
             [
-                'username_field' => $siteConfig->login_username_field,
-                'password_field' => $siteConfig->login_password_field,
-                'not_logged_in_xpath' => $siteConfig->not_logged_in_xpath,
-                'uri' => $siteConfig->login_uri,
-                'extra_fields' => $siteConfig->login_extra_fields
+                'username_field' => $siteConfig->getUsernameField(),
+                'password_field' => $siteConfig->getPasswordField(),
+                'not_logged_in_xpath' => $siteConfig->getNotLoggedInXpath(),
+                'uri' => $siteConfig->getLoginUri(),
+                'extra_fields' => $siteConfig->getExtraFields()
             ],
             $this->credentialsBag->getCredentialsForHost($host)
         );

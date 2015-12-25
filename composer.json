@@ -2,7 +2,6 @@
     "name": "bdunogier/guzzle-site-authenticator-bundle",
     "description": "A guzzle plugin thatadds, if necessary, authentication data to requests. Uses credentials and cookies, with login requests to the sites.",
     "require": {
-        "j0k3r/graby": "^1.0",
         "guzzlehttp/guzzle": "^5.2.0"
     },
     "authors": [

@@ -2,8 +2,14 @@ services:
     bd_guzzle_site_authenticator.authenticator_subscriber:
         class: BD\GuzzleSiteAuthenticatorBundle\Guzzle\AuthenticatorSubscriber
         arguments:
-            - @wallabag_core.graby.config_builder
+            - @bd_guzzle_site_authenticator.site_config_builder
             - @bd_guzzle_site_authenticator.authenticator_factory
+
+    bd_guzzle_site_authenticator.site_config_builder:
+        alias: bd_guzzle_site_authenticator.site_config_builder.array
+
+    bd_guzzle_site_authenticator.site_config_builder.array:
+        class: BD\GuzzleSiteAuthenticatorBundle\SiteConfig\ArraySiteConfigBuilder
 
     bd_guzzle_site_authenticator.authenticator_factory:
         class: BD\GuzzleSiteAuthenticatorBundle\Authenticator\Factory
