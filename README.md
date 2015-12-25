@@ -16,11 +16,18 @@ kernel class.
 The `BD\GuzzleSiteAuthenticator\Guzzle\AuthenticatorSubscriber` must be attached to the Guzzle client. The `bd_guzzle_site_authenticator.authenticator_subscriber` can be used for this, for instance via a factory:
 
 ```
-$client = new GuzzleHttp\Client();
+$client = new GuzzleHttp\Client(['defaults' => ['cookies' => new FileCookieJar('/tmp/cookiejar.json']]);
 $client->getEmitter()->attach(
   $container->get('bd_guzzle_site_authenticator.authenticator_subscriber')
 );
 ```
+
+The `CookieJar` is important: it will be used read/write cookies received by Guzzle, and is required for authentication
+to work.
+
+Send a request with Guzzle. If the request's host has a SiteConfig that requires configuration (see below), the plugin
+will try to log in to the site if it does not have a cookie yet. After a request, if the response contains the not logged
+in text (matched by xpath), it tries to login again, and retries the request.
 
 ## Site configuration
 Login to sites configured via `SiteConfig` objects:
@@ -28,10 +35,10 @@ Login to sites configured via `SiteConfig` objects:
 $siteConfig = new BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig([
   'host' => 'example.com',
   'loginUri' => 'http://example.com/login',
-  'username_field' => 'username',
-  'password_field' => 'password',
-  'extra_fields' => ['action' => 'login'],
-  'not_logged_in_xpath' => "//div[@class='not-logged-in']"
+  'usernameField' => 'username',
+  'passwordField' => 'password',
+  'extraFields' => ['action' => 'login'],
+  'notLoggedInXpath' => "//div[@class='not-logged-in']"
 ]);
 ```
 
