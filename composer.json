@@ -9,5 +9,17 @@
             "name": "Bertrand Dunogier",
             "email": "bertrand.dunogier@gmail.com"
         }
-    ]
+    ],
+    "require-dev": {
+        "phpspec/phpspec": "^2.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "BD\\GuzzleSiteAuthenticatorBundle\\": "bundle/",
+            "BD\\GuzzleSiteAuthenticator\\": "lib/"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
 }

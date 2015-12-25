@@ -2,7 +2,7 @@
 /**
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace BD\GuzzleSiteAuthenticatorBundle\SiteConfig;
+namespace BD\GuzzleSiteAuthenticator\SiteConfig;
 
 use InvalidArgumentException;
 
@@ -81,7 +81,7 @@ class SiteConfig
 
     /**
      * @param boolean $requiresLogin
-     * @return \BD\GuzzleSiteAuthenticatorBundle\SiteConfig\SiteConfig
+     * @return \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig
      */
     public function setRequiresLogin($requiresLogin)
     {
@@ -100,7 +100,7 @@ class SiteConfig
 
     /**
      * @param string $notLoggedInXpath
-     * @return \BD\GuzzleSiteAuthenticatorBundle\SiteConfig\SiteConfig
+     * @return \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig
      */
     public function setNotLoggedInXpath($notLoggedInXpath)
     {
@@ -119,7 +119,7 @@ class SiteConfig
 
     /**
      * @param string $loginUri
-     * @return \BD\GuzzleSiteAuthenticatorBundle\SiteConfig\SiteConfig
+     * @return \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig
      */
     public function setLoginUri($loginUri)
     {
@@ -138,7 +138,7 @@ class SiteConfig
 
     /**
      * @param string $usernameField
-     * @return \BD\GuzzleSiteAuthenticatorBundle\SiteConfig\SiteConfig
+     * @return \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig
      */
     public function setUsernameField($usernameField)
     {
@@ -158,7 +158,7 @@ class SiteConfig
 
     /**
      * @param string $passwordField
-     * @return \BD\GuzzleSiteAuthenticatorBundle\SiteConfig\SiteConfig
+     * @return \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig
      */
     public function setPasswordField($passwordField)
     {
@@ -177,7 +177,7 @@ class SiteConfig
 
     /**
      * @param array $extraFields
-     * @return \BD\GuzzleSiteAuthenticatorBundle\SiteConfig\SiteConfig
+     * @return \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig
      */
     public function setExtraFields($extraFields)
     {

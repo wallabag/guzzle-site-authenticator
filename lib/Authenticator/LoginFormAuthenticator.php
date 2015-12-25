@@ -1,6 +1,6 @@
 <?php
 
-namespace BD\GuzzleSiteAuthenticatorBundle\Authenticator;
+namespace BD\GuzzleSiteAuthenticator\Authenticator;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Cookie\CookieJar;

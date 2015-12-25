@@ -2,9 +2,9 @@
 /**
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace BD\GuzzleSiteAuthenticatorBundle\Authenticator\CredentialsBag;
+namespace BD\GuzzleSiteAuthenticator\Authenticator\CredentialsBag;
 
-use BD\GuzzleSiteAuthenticatorBundle\Authenticator\CredentialsBag;
+use BD\GuzzleSiteAuthenticator\Authenticator\CredentialsBag;
 
 /**
  * A simple credential bag based on an array.

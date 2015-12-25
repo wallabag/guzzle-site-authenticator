@@ -1,8 +1,8 @@
 <?php
 
-namespace BD\GuzzleSiteAuthenticatorBundle\Authenticator;
+namespace BD\GuzzleSiteAuthenticator\Authenticator;
 
-use BD\GuzzleSiteAuthenticatorBundle\SiteConfig\SiteConfig;
+use BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig;
 
 /**
  * Builds an Authenticator based on a SiteConfig.
@@ -10,7 +10,7 @@ use BD\GuzzleSiteAuthenticatorBundle\SiteConfig\SiteConfig;
 class Factory
 {
     /**
-     * @var \BD\GuzzleSiteAuthenticatorBundle\Authenticator\CredentialsBag
+     * @var \BD\GuzzleSiteAuthenticator\Authenticator\CredentialsBag
      */
     private $credentialsBag;
 
@@ -26,9 +26,9 @@ class Factory
 
     /**
      * @param $host
-     * @param \BD\GuzzleSiteAuthenticatorBundle\SiteConfig\SiteConfig $siteConfig
+     * @param \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig $siteConfig
      *
-     * @return \BD\GuzzleSiteAuthenticatorBundle\Authenticator\Authenticator
+     * @return \BD\GuzzleSiteAuthenticator\Authenticator\Authenticator
      * @throw \OutOfRangeException if there are no credentials for this host
      */
     public function buildFromSiteConfig($host, SiteConfig $siteConfig)
