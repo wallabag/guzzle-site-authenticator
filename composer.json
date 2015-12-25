@@ -22,7 +22,9 @@
     "config": {
         "bin-dir": "bin"
     },
-    "branch-alias": {
-        "dev-master": "0.1.x-dev"
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
     }
 }
