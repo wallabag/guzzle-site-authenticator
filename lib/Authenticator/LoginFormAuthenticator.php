@@ -40,10 +40,6 @@ class LoginFormAuthenticator implements Authenticator
             ['body' => $postFields, 'allow_redirects' => true, 'verify' => false]
         );
 
-        if (!$this->isLoggedIn($guzzle)) {
-            throw new Exception("Login to {$this->host} failed");
-        }
-
         return $this;
     }
 
