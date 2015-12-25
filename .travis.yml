@@ -5,7 +5,7 @@ php:
 
 branches:
   only:
-    - dev
+    - master
 
 before_script:
   - composer install
