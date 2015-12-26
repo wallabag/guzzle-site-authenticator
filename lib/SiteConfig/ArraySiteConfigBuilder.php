@@ -16,7 +16,8 @@ class ArraySiteConfigBuilder implements SiteConfigBuilder
     public function __construct(array $hostConfigMap = [])
     {
         foreach ($hostConfigMap as $host => $hostConfig) {
-            $this->configs = new SiteConfig($hostConfig);
+            $hostConfig['host'] = $host;
+            $this->configs[$host] = new SiteConfig($hostConfig);
         }
     }
 
