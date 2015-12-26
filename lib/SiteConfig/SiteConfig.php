@@ -54,6 +54,18 @@ class SiteConfig
     protected $extraFields;
 
     /**
+     * Username to use for login.
+     * @var string
+     */
+    protected $username;
+
+    /**
+     * Password to use for login.
+     * @var string
+     */
+    protected $password;
+
+    /**
      * SiteConfig constructor. Sets the properties by name given a hash.
      *
      * @param array $properties
@@ -202,6 +214,46 @@ class SiteConfig
     public function setHost($host)
     {
         $this->host = $host;
+
+        return $this;
+}
+
+    /**
+     * @return mixed
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param mixed $username
+     *
+     * @return SiteConfig
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+}
+
+    /**
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param string $password
+     *
+     * @return SiteConfig
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
 
         return $this;
 }

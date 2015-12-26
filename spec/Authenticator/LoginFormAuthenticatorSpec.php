@@ -14,24 +14,21 @@ use Prophecy\Argument;
  */
 class LoginFormAuthenticatorSpec extends ObjectBehavior
 {
-    function let()
+    function let($siteConfig)
     {
-        $this->beConstructedWith(
-            'example.com',
-            [
-                'uri' => 'http://example.com/login',
-                'username_field' => 'username',
-                'password_field' => 'password',
-                'extra_fields' => [
-                    'action' => 'login',
-                    'foo' => 'bar'
-                ],
+        $siteConfig = new SiteConfig([
+        'host' => 'example.com',
+            'loginUri' => 'http://example.com/login',
+            'usernameField' => 'username',
+            'passwordField' => 'password',
+            'extraFields' => [
+                'action' => 'login',
+                'foo' => 'bar'
             ],
-            [
-                'username' => 'johndoe',
-                'password' => 'unkn0wn'
-            ]
-        );
+            'username' => 'johndoe',
+            'password' => 'unkn0wn'
+        ]);
+        $this->beConstructedWith($siteConfig);
     }
 
     function it_is_initializable()

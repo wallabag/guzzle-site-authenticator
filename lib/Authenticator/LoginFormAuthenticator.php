@@ -2,41 +2,34 @@
 
 namespace BD\GuzzleSiteAuthenticator\Authenticator;
 
+use BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Cookie\CookieJar;
 use Exception;
 
 class LoginFormAuthenticator implements Authenticator
 {
-    /** @var array Array with 'username' and 'password' keys */
-    private $credentials;
-
     /** @var \GuzzleHttp\Client */
     protected $guzzle;
 
-    /** @var array */
-    private $formOptions;
+    /** @var \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig */
+    private $siteConfig;
 
-    /** @var string */
-    private $host;
-
-    public function __construct($host, array $formOptions = [], array $credentials)
+    public function __construct(SiteConfig $siteConfig)
     {
         // @todo OptionResolver
-        $this->formOptions = $formOptions;
-        $this->credentials = $credentials;
-        $this->host = $host;
+        $this->siteConfig = $siteConfig;
     }
 
     public function login(ClientInterface $guzzle)
     {
         $postFields = [
-            $this->formOptions['username_field'] => $this->credentials['username'],
-            $this->formOptions['password_field'] => $this->credentials['password'],
-        ] + $this->formOptions['extra_fields'];
+            $this->siteConfig->getUsernameField() => $this->siteConfig->getUsername(),
+            $this->siteConfig->getPasswordField() => $this->siteConfig->getPassword(),
+        ] + $this->siteConfig->getExtraFields();
 
         $guzzle->post(
-            $this->formOptions['uri'],
+            $this->siteConfig->getLoginUri(),
             ['body' => $postFields, 'allow_redirects' => true, 'verify' => false]
         );
 
@@ -49,7 +42,7 @@ class LoginFormAuthenticator implements Authenticator
             /** @var \GuzzleHttp\Cookie\SetCookie $cookie */
             foreach ($cookieJar as $cookie) {
                 // check required cookies
-                if ($cookie->getDomain() == $this->host) {
+                if ($cookie->getDomain() == $this->siteConfig->getHost()) {
                     return true;
                 }
             }
@@ -74,7 +67,7 @@ class LoginFormAuthenticator implements Authenticator
         $doc->loadHTML($html);
 
         $xpath = new \DOMXPath($doc);
-        $result = ($xpath->evaluate($this->formOptions['not_logged_in_xpath'])->length > 0);
+        $result = ($xpath->evaluate($this->siteConfig->getNotLoggedInXpath())->length > 0);
 
         libxml_use_internal_errors($useInternalErrors);
 

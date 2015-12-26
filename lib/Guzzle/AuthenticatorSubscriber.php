@@ -43,16 +43,13 @@ class AuthenticatorSubscriber implements SubscriberInterface
 
     public function loginIfRequired(BeforeEvent $event)
     {
-        $request = $event->getRequest();
-        $host = $request->getHost();
-
         $config = $this->buildSiteConfig($event->getRequest());
         if (!$config->requiresLogin()) {
             return;
         }
 
         $client = $event->getClient();
-        $authenticator = $this->authenticatorFactory->buildFromSiteConfig($host, $config);
+        $authenticator = $this->authenticatorFactory->buildFromSiteConfig($config);
         if (!$authenticator->isLoggedIn($client)) {
             $emitter = $client->getEmitter();
             $emitter->detach($this);
@@ -69,7 +66,7 @@ class AuthenticatorSubscriber implements SubscriberInterface
             return;
         }
 
-        $authenticator = $this->authenticatorFactory->buildFromSiteConfig($event->getRequest()->getHost(), $config);
+        $authenticator = $this->authenticatorFactory->buildFromSiteConfig($config);
 
         if ($authenticator->isLoginRequired($html)) {
             $client = $event->getClient();
