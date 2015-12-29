@@ -1,5 +1,4 @@
 parameters:
-    bd_guzzle_site_authenticator.credentials: []
     bd_guzzle_site_authenticator.site_config: []
 
 services:
@@ -11,16 +10,11 @@ services:
 
     bd_guzzle_site_authenticator.authenticator_factory:
         class: BD\GuzzleSiteAuthenticator\Authenticator\Factory
-        arguments:
-            - @bd_guzzle_site_authenticator.credentials_bag
-
-    bd_guzzle_site_authenticator.credentials_bag:
-        class: BD\GuzzleSiteAuthenticator\Authenticator\CredentialsBag\ArrayCredentialsBag
-        arguments: %bd_guzzle_site_authenticator.credentials%
 
     bd_guzzle_site_authenticator.site_config_builder:
         alias: bd_guzzle_site_authenticator.site_config_builder.array
 
     bd_guzzle_site_authenticator.site_config_builder.array:
         class: BD\GuzzleSiteAuthenticator\SiteConfig\ArraySiteConfigBuilder
-        arguments: %bd_guzzle_site_authenticator.site_config%
+        arguments:
+            - %bd_guzzle_site_authenticator.site_config%

@@ -81,7 +81,7 @@ class AuthenticatorSubscriberSpec extends ObjectBehavior
         ClientInterface $guzzle
     )
     {
-        $authenticatorFactory->buildFromSiteConfig('example.com', $siteConfig)->willReturn($authenticator);
+        $authenticatorFactory->buildFromSiteConfig($siteConfig)->willReturn($authenticator);
         $siteConfig->requiresLogin()->willReturn(true);
         $authenticator->isLoggedIn($guzzle)->willReturn(false);
         $authenticator->login($guzzle)->shouldBeCalled();
@@ -99,7 +99,7 @@ class AuthenticatorSubscriberSpec extends ObjectBehavior
     {
         $siteConfig->requiresLogin()->willReturn(true);
 
-        $authenticatorFactory->buildFromSiteConfig('example.com', $siteConfig)->willReturn($authenticator);
+        $authenticatorFactory->buildFromSiteConfig($siteConfig)->willReturn($authenticator);
         $authenticator->isLoginRequired(Argument::type('string'))->willReturn(true);
         $authenticator->login($guzzle)->shouldBeCalled();
         $completeEvent->retry()->shouldBeCalled();
