@@ -106,4 +106,16 @@ class AuthenticatorSubscriberSpec extends ObjectBehavior
 
         $this->loginIfRequested($completeEvent);
     }
+
+    function it_ignores_requests_to_sites_without_config(
+        BeforeEvent $beforeEvent,
+        CompleteEvent $completeEvent,
+        SiteConfigBuilder $siteConfigBuilder
+    )
+    {
+        $siteConfigBuilder->buildForHost(Argument::any())->willThrow('OutOfRangeException');
+
+        $this->loginIfRequired($beforeEvent)->shouldReturn(null);
+        $this->loginIfRequested($completeEvent)->shouldReturn(null);
+    }
 }
