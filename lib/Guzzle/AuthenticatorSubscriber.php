@@ -10,6 +10,7 @@ use GuzzleHttp\Event\SubscriberInterface;
 use GuzzleHttp\Event\BeforeEvent;
 use GuzzleHttp\Event\CompleteEvent;
 use GuzzleHttp\Message\RequestInterface;
+use OutOfRangeException;
 
 class AuthenticatorSubscriber implements SubscriberInterface
 {
@@ -43,7 +44,12 @@ class AuthenticatorSubscriber implements SubscriberInterface
 
     public function loginIfRequired(BeforeEvent $event)
     {
-        $config = $this->buildSiteConfig($event->getRequest());
+        try {
+            $config = $this->buildSiteConfig($event->getRequest());
+        } catch (OutOfRangeException $e) {
+            return;
+        }
+
         if (!$config->requiresLogin()) {
             return;
         }
@@ -61,7 +67,11 @@ class AuthenticatorSubscriber implements SubscriberInterface
     public function loginIfRequested(CompleteEvent $event)
     {
         $html = $event->getResponse()->getBody();
-        $config = $this->buildSiteConfig($event->getRequest());
+        try {
+            $config = $this->buildSiteConfig($event->getRequest());
+        } catch (OutOfRangeException $e) {
+            return;
+        }
         if (!$config->requiresLogin()) {
             return;
         }
