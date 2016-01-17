@@ -44,9 +44,7 @@ class AuthenticatorSubscriber implements SubscriberInterface
 
     public function loginIfRequired(BeforeEvent $event)
     {
-        try {
-            $config = $this->buildSiteConfig($event->getRequest());
-        } catch (OutOfRangeException $e) {
+        if (($config = $this->buildSiteConfig($event->getRequest())) === false) {
             return;
         }
 
@@ -66,19 +64,17 @@ class AuthenticatorSubscriber implements SubscriberInterface
 
     public function loginIfRequested(CompleteEvent $event)
     {
-        $html = $event->getResponse()->getBody();
-        try {
-            $config = $this->buildSiteConfig($event->getRequest());
-        } catch (OutOfRangeException $e) {
+        if (($config = $this->buildSiteConfig($event->getRequest())) === false) {
             return;
         }
+
         if (!$config->requiresLogin()) {
             return;
         }
 
         $authenticator = $this->authenticatorFactory->buildFromSiteConfig($config);
 
-        if ($authenticator->isLoginRequired($html)) {
+        if ($authenticator->isLoginRequired($event->getResponse()->getBody())) {
             $client = $event->getClient();
 
             $emitter = $client->getEmitter();
@@ -90,6 +86,9 @@ class AuthenticatorSubscriber implements SubscriberInterface
         }
     }
 
+    /**
+     * @return \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig|false
+     */
     private function buildSiteConfig(RequestInterface $request)
     {
         return $this->configBuilder->buildForHost($request->getHost());

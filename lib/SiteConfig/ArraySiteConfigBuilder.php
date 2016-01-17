@@ -13,12 +13,16 @@ class ArraySiteConfigBuilder implements SiteConfigBuilder
      */
     private $configs = [];
 
+    private $defaultConfig;
+
     public function __construct(array $hostConfigMap = [])
     {
         foreach ($hostConfigMap as $host => $hostConfig) {
             $hostConfig['host'] = $host;
             $this->configs[$host] = new SiteConfig($hostConfig);
         }
+
+        $this->defaultConfig = new SiteConfig([]);
     }
 
     /**
@@ -40,6 +44,6 @@ class ArraySiteConfigBuilder implements SiteConfigBuilder
             return $this->configs[$host];
         }
 
-        throw new OutOfRangeException("No config found for host $host");
+        return $this->defaultConfig;
     }
 }
