@@ -106,4 +106,16 @@ class AuthenticatorSubscriberSpec extends ObjectBehavior
 
         $this->loginIfRequested($completeEvent);
     }
+
+    function it_ignores_requests_to_sites_without_config(
+        BeforeEvent $beforeEvent,
+        CompleteEvent $completeEvent,
+        SiteConfig $siteConfig
+    )
+    {
+        $siteConfig->requiresLogin()->willReturn(false);
+
+        $this->loginIfRequired($beforeEvent)->shouldReturn(null);
+        $this->loginIfRequested($completeEvent)->shouldReturn(null);
+    }
 }

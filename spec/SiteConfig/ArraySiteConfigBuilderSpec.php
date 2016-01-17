@@ -23,8 +23,8 @@ class ArraySiteConfigBuilderSpec extends ObjectBehavior
         $this->buildForHost('example.com')->shouldReturnAnInstanceOf('BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig');
     }
 
-    function it_throws_an_out_of_range_exception_on_a_host_that_does_not_exist()
+    function it_returns_the_default_config_on_a_host_that_does_not_exist()
     {
-        $this->shouldThrow('\OutOfRangeException')->duringBuildForHost('anotherexample.com');
+        $this->buildForHost('anotherexample.com')->shouldReturnAnInstanceOf('BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig');
     }
 }
