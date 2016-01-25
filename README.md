@@ -49,9 +49,14 @@ $siteConfig = new BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig([
 ]);
 ```
 
-`SiteConfig` objects are returned by a `SiteConfigBuilder`. The library comes with a default `ArraySiteConfigBuilder,
-that accepts a list of site config properties array, indexed by host. With the bundle, its contents can be configured
-using the `bd_guzzle_site_authenticator.site_config` container variable:
+### Site configuration builders
+
+`SiteConfig` objects are returned by a `SiteConfigBuilder`. The library comes with two builders, but you are free to
+write your own.
+
+#### Container based: `ArraySiteConfigBuilder``
+It accepts a list of site config properties array, indexed by host.
+With the bundle, its contents can be configured using the `bd_guzzle_site_authenticator.site_config` container variable:
 
 ```
 # config.yml
@@ -68,6 +73,16 @@ parameters:
       password: "unknown"
     otherexample.com:
       host: ...
+```
+
+#### Graby based: `GrabySiteConfigBuilder`
+`j0k3r/graby` is a library that maintains configurations for hundreds of sites. Once grabyhas been installed with
+composer, you can create a builder based on it:
+
+```php
+$configBuilder = new BD\GuzzleSiteAuthenticator\Graby\GrabySiteConfigBuilder(
+    new Graby\SiteConfig\ConfigBuilder()
+);
 ```
 
 ## Credentials

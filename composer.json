@@ -1,17 +1,20 @@
 {
     "name": "bdunogier/guzzle-site-authenticator",
     "description": "A guzzle plugin that adds, if necessary, authentication data to requests. Uses credentials and cookies, with login requests to the sites.",
-    "require": {
-        "guzzlehttp/guzzle": "^5.2.0"
-    },
     "authors": [
         {
             "name": "Bertrand Dunogier",
             "email": "bertrand.dunogier@gmail.com"
         }
     ],
+    "require": {
+        "guzzlehttp/guzzle": "^5.2.0"
+    },
     "require-dev": {
         "phpspec/phpspec": "^2.4"
+    },
+    "suggest": {
+        "j0k3r/graby": "A database of site configurations. The plugin comes with a GrabySiteConfigBuilder"
     },
     "autoload": {
         "psr-4": {
