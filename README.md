@@ -70,9 +70,23 @@ parameters:
       host: ...
 ```
 
+## Credentials
+Credentials (username, password,...) are provided by a `SiteCredentialsProvider`.
+
+The library comes with an `ArraySiteConfigProvider` that is constructed with a hash of hostname => credentials:
+
+```php
+$credentialsProvider = new BD\GuzzleSiteAuthenticator\Credentials\ArraySiteCredentialsProvider([
+    'example.com' => ['username' => 'johndoe', 'password' => 'jane1702'],
+]);
+```
+
+### Custom providers
+You are encouraged to write your own `SiteConfigProvider` to match your system. A provider must return `Credentials`
+objects (`getSiteCredentials()`), and must also implement `hasSiteCredentials()`.
+
 ## Implementations
 Used in a pull-request to [wallabag](http://github.com/wallabag/wallabag), a read it later web application, to fetch
 content from sites that require a login.
 
-It implements a custom `SiteConfigBuilder``, based on sites configuration provided by [j0k3r/graby](http://github.com/j0k3r/graby).
-
+It uses the GrabySiteConfigBuilder, and its own authenticator, to fetch content that requires an account.

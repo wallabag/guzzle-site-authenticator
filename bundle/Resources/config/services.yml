@@ -18,3 +18,10 @@ services:
         class: BD\GuzzleSiteAuthenticator\SiteConfig\ArraySiteConfigBuilder
         arguments:
             - %bd_guzzle_site_authenticator.site_config%
+
+    bd_guzzle_site_authenticator.site_credentials_provider:
+        alias: bd_guzzle_site_authenticator.site_credentials_provider.array
+
+    bd_guzzle_site_authenticator.site_credentials_provider.array:
+        class: BD\GuzzleSiteAuthenticator\Credentials\ArraySiteCredentialsProvider
+        arguments: %bd_guzzle_site_authenticator.sites_credentials%
