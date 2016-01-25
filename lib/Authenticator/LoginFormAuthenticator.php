@@ -6,6 +6,7 @@ use BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Cookie\CookieJar;
 use Exception;
+use GuzzleHttp\Cookie\CookieJarInterface;
 
 class LoginFormAuthenticator implements Authenticator
 {
@@ -38,11 +39,11 @@ class LoginFormAuthenticator implements Authenticator
 
     public function isLoggedIn(ClientInterface $guzzle)
     {
-        if (($cookieJar = $guzzle->getDefaultOption('cookies')) instanceof CookieJar) {
+        if (($cookieJar = $guzzle->getDefaultOption('cookies')) instanceof CookieJarInterface) {
             /** @var \GuzzleHttp\Cookie\SetCookie $cookie */
             foreach ($cookieJar as $cookie) {
                 // check required cookies
-                if ($cookie->getDomain() == $this->siteConfig->getHost()) {
+                if ($cookie->matchesDomain($this->siteConfig->getHost())) {
                     return true;
                 }
             }
