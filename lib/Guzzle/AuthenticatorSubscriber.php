@@ -11,9 +11,12 @@ use GuzzleHttp\Event\BeforeEvent;
 use GuzzleHttp\Event\CompleteEvent;
 use GuzzleHttp\Message\RequestInterface;
 use OutOfRangeException;
+use Psr\Log\LoggerAwareTrait;
 
 class AuthenticatorSubscriber implements SubscriberInterface
 {
+    use LoggerAwareTrait;
+
     /**
      * @var \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfigBuilder
      */
@@ -52,13 +55,21 @@ class AuthenticatorSubscriber implements SubscriberInterface
             return;
         }
 
-        $client = $event->getClient();
+        $this->logDebug("Site config for " . $config->getHost() . " requires login");
+
         $authenticator = $this->authenticatorFactory->buildFromSiteConfig($config);
+        $client = $event->getClient();
         if (!$authenticator->isLoggedIn($client)) {
+            $this->logDebug("No existing login data for " . $config->getHost() . " found");
             $emitter = $client->getEmitter();
             $emitter->detach($this);
+
+            $this->logInfo("Logging in to " . $config->getHost());
             $authenticator->login($client);
+
             $emitter->attach($this);
+        } else {
+            $this->logDebug("Found existing login data for " . $config->getHost());
         }
     }
 
@@ -75,10 +86,12 @@ class AuthenticatorSubscriber implements SubscriberInterface
         $authenticator = $this->authenticatorFactory->buildFromSiteConfig($config);
 
         if ($authenticator->isLoginRequired($event->getResponse()->getBody())) {
+            $this->logDebug("Response for " . $event->getRequest()->getUrl() . " requires login");
             $client = $event->getClient();
 
             $emitter = $client->getEmitter();
             $emitter->detach($this);
+            $this->logInfo("Logging in to " . $config->getHost());
             $authenticator->login($client);
             $emitter->attach($this);
 
@@ -92,5 +105,23 @@ class AuthenticatorSubscriber implements SubscriberInterface
     private function buildSiteConfig(RequestInterface $request)
     {
         return $this->configBuilder->buildForHost($request->getHost());
+    }
+
+    private function logDebug($message, array $context = [])
+    {
+        if (!isset($this->logger)) {
+            return;
+        }
+
+        $this->logger->debug($message, $context);
+    }
+
+    private function logInfo($message, array $context = [])
+    {
+        if (!isset($this->logger)) {
+            return;
+        }
+
+        $this->logger->info($message, $context);
     }
 }

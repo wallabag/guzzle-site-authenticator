@@ -7,6 +7,8 @@ services:
         arguments:
             - "@bd_guzzle_site_authenticator.site_config_builder"
             - "@bd_guzzle_site_authenticator.authenticator_factory"
+        calls:
+            - [setLogger, ["@?logger"]]
 
     bd_guzzle_site_authenticator.authenticator_factory:
         class: BD\GuzzleSiteAuthenticator\Authenticator\Factory
