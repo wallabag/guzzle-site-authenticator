@@ -17,4 +17,4 @@ services:
     bd_guzzle_site_authenticator.site_config_builder.array:
         class: BD\GuzzleSiteAuthenticator\SiteConfig\ArraySiteConfigBuilder
         arguments:
-            - %bd_guzzle_site_authenticator.site_config%
+            - "%bd_guzzle_site_authenticator.site_config%"
