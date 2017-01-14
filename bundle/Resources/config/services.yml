@@ -18,3 +18,6 @@ services:
         class: BD\GuzzleSiteAuthenticator\SiteConfig\ArraySiteConfigBuilder
         arguments:
             - "%bd_guzzle_site_authenticator.site_config%"
+
+    bd_guzzle_site_authenticator.monde_diplomatique_uri_fix_subscriber:
+        class: BD\GuzzleSiteAuthenticator\Guzzle\FixupMondeDiplomatiqueUriSubscriber
