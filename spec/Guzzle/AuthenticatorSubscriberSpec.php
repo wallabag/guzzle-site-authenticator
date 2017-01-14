@@ -25,8 +25,7 @@ class AuthenticatorSubscriberSpec extends ObjectBehavior
         BeforeEvent $beforeEvent,
         CompleteEvent $completeEvent,
         RequestInterface $request,
-        ResponseInterface $response,
-        Factory $authenticatorFactory)
+        ResponseInterface $response)
     {
         $siteConfig->getHost()->willReturn('example.com');
         $siteConfigBuilder->buildForHost('example.com')->willReturn($siteConfig);
