@@ -22,20 +22,20 @@ class AuthenticatorProvider implements ExpressionFunctionProviderInterface
     public function getFunctions()
     {
         return [
-            $this->getRequestFunction(),
+            $this->getRequestHtmlFunction(),
             $this->getXpathFunction(),
         ];
     }
 
-    private function getRequestFunction()
+    private function getRequestHtmlFunction()
     {
         return new ExpressionFunction(
             'request_html',
             function () {
                 throw new Exception("Not supported");
             },
-            function (array $arguments, $uri) {
-                return $this->guzzle->get($uri)->getBody();
+            function (array $arguments, $uri, array $options = []) {
+                return $this->guzzle->get($uri, $options)->getBody();
             }
         );
     }
