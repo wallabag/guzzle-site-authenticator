@@ -3,7 +3,8 @@
     "description": "A guzzle plugin that adds, if necessary, authentication data to requests. Uses credentials and cookies, with login requests to the sites.",
     "license": "MIT",
     "require": {
-        "guzzlehttp/guzzle": "^5.2.0"
+        "guzzlehttp/guzzle": "^5.2.0",
+        "symfony/expression-language": "^3.2"
     },
     "authors": [
         {
