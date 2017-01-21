@@ -13,7 +13,7 @@
         }
     ],
     "require-dev": {
-        "phpspec/phpspec": "^2.4",
+        "phpspec/phpspec": "^3.0",
         "friendsofphp/php-cs-fixer": "~2.0"
     },
     "autoload": {
