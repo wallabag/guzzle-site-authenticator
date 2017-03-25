@@ -54,7 +54,7 @@ class AuthenticatorSubscriber implements SubscriberInterface
 
         $client = $event->getClient();
         $authenticator = $this->authenticatorFactory->buildFromSiteConfig($config);
-        if (!$authenticator->isLoggedIn($client)) {
+        if (!$authenticator->isLoggedIn($client) || is_null($config->getUsername())) {
             $emitter = $client->getEmitter();
             $emitter->detach($this);
             $authenticator->login($client);
@@ -68,7 +68,7 @@ class AuthenticatorSubscriber implements SubscriberInterface
             return;
         }
 
-        if (!$config->requiresLogin()) {
+        if (!$config->requiresLogin() || is_null($config->getUsername())) {
             return;
         }
 
