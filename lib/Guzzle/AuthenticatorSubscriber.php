@@ -14,6 +14,11 @@ use OutOfRangeException;
 
 class AuthenticatorSubscriber implements SubscriberInterface
 {
+    // avoid loop when login failed which can just be a bad login/password
+    // after 2 attempts, we skip the login
+    const MAX_RETRIES = 2;
+    private static $retries = 0;
+
     /**
      * @var \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfigBuilder
      */
@@ -37,23 +42,21 @@ class AuthenticatorSubscriber implements SubscriberInterface
     public function getEvents()
     {
         return [
-            'before'   => ['loginIfRequired'],
+            'before' => ['loginIfRequired'],
             'complete' => ['loginIfRequested'],
         ];
     }
 
     public function loginIfRequired(BeforeEvent $event)
     {
-        if (($config = $this->buildSiteConfig($event->getRequest())) === false) {
-            return;
-        }
-
-        if (!$config->requiresLogin()) {
+        $config = $this->buildSiteConfig($event->getRequest());
+        if ($config === false || !$config->requiresLogin()) {
             return;
         }
 
         $client = $event->getClient();
         $authenticator = $this->authenticatorFactory->buildFromSiteConfig($config);
+
         if (!$authenticator->isLoggedIn($client)) {
             $emitter = $client->getEmitter();
             $emitter->detach($this);
@@ -64,17 +67,14 @@ class AuthenticatorSubscriber implements SubscriberInterface
 
     public function loginIfRequested(CompleteEvent $event)
     {
-        if (($config = $this->buildSiteConfig($event->getRequest())) === false) {
-            return;
-        }
-
-        if (!$config->requiresLogin()) {
+        $config = $this->buildSiteConfig($event->getRequest());
+        if ($config === false || !$config->requiresLogin()) {
             return;
         }
 
         $authenticator = $this->authenticatorFactory->buildFromSiteConfig($config);
 
-        if ($authenticator->isLoginRequired($event->getResponse()->getBody())) {
+        if ($authenticator->isLoginRequired($event->getResponse()->getBody()) && self::$retries < self::MAX_RETRIES) {
             $client = $event->getClient();
 
             $emitter = $client->getEmitter();
@@ -83,6 +83,8 @@ class AuthenticatorSubscriber implements SubscriberInterface
             $emitter->attach($this);
 
             $event->retry();
+
+            ++self::$retries;
         }
     }
 
