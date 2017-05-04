@@ -2,6 +2,7 @@
 /**
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace BD\GuzzleSiteAuthenticator\SiteConfig;
 
 interface SiteConfigBuilder
@@ -11,9 +12,9 @@ interface SiteConfigBuilder
      *
      * @param string $host The "www." prefix is ignored.
      *
-     * @return SiteConfig
-     *
      * @throws \OutOfRangeException If there is no config for $host
+     *
+     * @return SiteConfig
      */
     public function buildForHost($host);
 }

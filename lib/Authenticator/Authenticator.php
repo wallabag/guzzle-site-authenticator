@@ -9,7 +9,7 @@ interface Authenticator
     /**
      * Logs the configured user on the given Guzzle client.
      *
-     * @param \GuzzleHttp\ClientInterface $guzzle
+     * @param ClientInterface $guzzle
      *
      * @return self
      */
@@ -18,7 +18,7 @@ interface Authenticator
     /**
      * Checks if we are logged into the site, but without calling the server (e.g. do we have a Cookie).
      *
-     * @param \GuzzleHttp\ClientInterface $guzzle
+     * @param ClientInterface $guzzle
      *
      * @return bool
      */

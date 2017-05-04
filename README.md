@@ -19,10 +19,10 @@ kernel class.
 The guzzle subscriber, `Guzzle\AuthenticatorSubscriber`, must be attached to the Guzzle client. It is provided by the
 bundle as `@bd_guzzle_site_authenticator.authenticator_subscriber`:
 
-```
+```php
 $client = new GuzzleHttp\Client(['defaults' => ['cookies' => new FileCookieJar('/tmp/cookiejar.json']]);
 $client->getEmitter()->attach(
-  $container->get('bd_guzzle_site_authenticator.authenticator_subscriber')
+    $container->get('bd_guzzle_site_authenticator.authenticator_subscriber')
 );
 ```
 
@@ -36,43 +36,43 @@ in text (matched by xpath), it tries to login again, and retries the request.
 
 ## Site configuration
 Login to sites configured via `SiteConfig` objects:
+
 ```php
 $siteConfig = new BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig([
-  'host' => 'example.com',
-  'loginUri' => 'http://example.com/login',
-  'usernameField' => 'username',
-  'passwordField' => 'password',
-  'extraFields' => ['action' => 'login'],
-  'notLoggedInXpath' => "//div[@class='not-logged-in']",
-  'username' => "johndoe",
-  'password' => "unknown",
+    'host' => 'example.com',
+    'loginUri' => 'http://example.com/login',
+    'usernameField' => 'username',
+    'passwordField' => 'password',
+    'extraFields' => ['action' => 'login'],
+    'notLoggedInXpath' => "//div[@class='not-logged-in']",
+    'username' => "johndoe",
+    'password' => "unknown",
 ]);
 ```
 
-`SiteConfig` objects are returned by a `SiteConfigBuilder`. The library comes with a default `ArraySiteConfigBuilder,
+`SiteConfig` objects are returned by a `SiteConfigBuilder`. The library comes with a default `ArraySiteConfigBuilder`,
 that accepts a list of site config properties array, indexed by host. With the bundle, its contents can be configured
 using the `bd_guzzle_site_authenticator.site_config` container variable:
 
-```
+```yaml
 # config.yml
 parameters:
-  bd_guzzle_site_authenticator.site_config:
-    example.com:
-      host: "example.com"
-      loginUri: "http://example.com/login"
-      usernameField: "username"
-      passwordField: "password"
-      extraFields: {action: login}
-      notLoggedInXpath: "//div[@class='not-logged-in']"
-      username: "johndoe"
-      password: "unknown"
-    otherexample.com:
-      host: ...
+    bd_guzzle_site_authenticator.site_config:
+        example.com:
+            host: "example.com"
+            loginUri: "http://example.com/login"
+            usernameField: "username"
+            passwordField: "password"
+            extraFields: {action: login}
+            notLoggedInXpath: "//div[@class='not-logged-in']"
+            username: "johndoe"
+            password: "unknown"
+        otherexample.com:
+            host: ...
 ```
 
 ## Implementations
 Used in a pull-request to [wallabag](http://github.com/wallabag/wallabag), a read it later web application, to fetch
 content from sites that require a login.
 
-It implements a custom `SiteConfigBuilder``, based on sites configuration provided by [j0k3r/graby](http://github.com/j0k3r/graby).
-
+It implements a custom `SiteConfigBuilder`, based on sites configuration provided by [j0k3r/graby](http://github.com/j0k3r/graby).

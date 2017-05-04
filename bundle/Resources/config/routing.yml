@@ -1,3 +1,0 @@
-bd_guzzle_site_authenticator_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: BDGuzzleSiteAuthenticatorBundle:Default:index }

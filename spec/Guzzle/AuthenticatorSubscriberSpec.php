@@ -17,7 +17,7 @@ use Prophecy\Argument;
 
 class AuthenticatorSubscriberSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         SiteConfigBuilder $siteConfigBuilder,
         SiteConfig $siteConfig,
         Factory $authenticatorFactory,
@@ -46,41 +46,39 @@ class AuthenticatorSubscriberSpec extends ObjectBehavior
         $this->beConstructedWith($siteConfigBuilder, $authenticatorFactory);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('BD\GuzzleSiteAuthenticator\Guzzle\AuthenticatorSubscriber');
     }
 
-    function it_registers_the_before_request_event()
+    public function it_registers_the_before_request_event()
     {
         $this->getEvents()->shouldHaveKey('before');
     }
 
-    function it_registers_the_complete_request_event()
+    public function it_registers_the_complete_request_event()
     {
         $this->getEvents()->shouldHaveKey('complete');
     }
 
-    function it_ignores_sites_that_dont_require_login(
+    public function it_ignores_sites_that_dont_require_login(
         Factory $authenticatorFactory,
         SiteConfig $siteConfig,
         BeforeEvent $beforeEvent
-    )
-    {
+    ) {
         $siteConfig->requiresLogin()->willReturn(false);
         $authenticatorFactory->buildFromSiteConfig()->shouldNotBeCalled();
 
         $this->loginIfRequired($beforeEvent);
     }
 
-    function it_logs_in_before_requests_to_sites_that_require_login(
+    public function it_logs_in_before_requests_to_sites_that_require_login(
         SiteConfig $siteConfig,
         Factory $authenticatorFactory,
         BeforeEvent $beforeEvent,
         Authenticator $authenticator,
         ClientInterface $guzzle
-    )
-    {
+    ) {
         $authenticatorFactory->buildFromSiteConfig($siteConfig)->willReturn($authenticator);
         $siteConfig->requiresLogin()->willReturn(true);
         $authenticator->isLoggedIn($guzzle)->willReturn(false);
@@ -89,14 +87,13 @@ class AuthenticatorSubscriberSpec extends ObjectBehavior
         $this->loginIfRequired($beforeEvent);
     }
 
-    function it_logs_in_after_responses_that_required_login_and_retries_the_request(
+    public function it_logs_in_after_responses_that_required_login_and_retries_the_request(
         SiteConfig $siteConfig,
         Factory $authenticatorFactory,
         CompleteEvent $completeEvent,
         Authenticator $authenticator,
         ClientInterface $guzzle
-    )
-    {
+    ) {
         $siteConfig->requiresLogin()->willReturn(true);
 
         $authenticatorFactory->buildFromSiteConfig($siteConfig)->willReturn($authenticator);
@@ -107,12 +104,11 @@ class AuthenticatorSubscriberSpec extends ObjectBehavior
         $this->loginIfRequested($completeEvent);
     }
 
-    function it_ignores_requests_to_sites_without_config(
+    public function it_ignores_requests_to_sites_without_config(
         BeforeEvent $beforeEvent,
         CompleteEvent $completeEvent,
         SiteConfig $siteConfig
-    )
-    {
+    ) {
         $siteConfig->requiresLogin()->willReturn(false);
 
         $this->loginIfRequired($beforeEvent)->shouldReturn(null);
