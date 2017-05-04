@@ -5,14 +5,13 @@ namespace BD\GuzzleSiteAuthenticator\Authenticator;
 use BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Cookie\CookieJar;
-use Exception;
 
 class LoginFormAuthenticator implements Authenticator
 {
     /** @var \GuzzleHttp\Client */
     protected $guzzle;
 
-    /** @var \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig */
+    /** @var SiteConfig */
     private $siteConfig;
 
     public function __construct(SiteConfig $siteConfig)
@@ -42,7 +41,7 @@ class LoginFormAuthenticator implements Authenticator
             /** @var \GuzzleHttp\Cookie\SetCookie $cookie */
             foreach ($cookieJar as $cookie) {
                 // check required cookies
-                if ($cookie->getDomain() == $this->siteConfig->getHost()) {
+                if ($cookie->getDomain() === $this->siteConfig->getHost()) {
                     return true;
                 }
             }

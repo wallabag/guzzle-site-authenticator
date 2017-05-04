@@ -2,14 +2,13 @@
 /**
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace BD\GuzzleSiteAuthenticator\SiteConfig;
 
-use OutOfRangeException;
+namespace BD\GuzzleSiteAuthenticator\SiteConfig;
 
 class ArraySiteConfigBuilder implements SiteConfigBuilder
 {
     /**
-     * Map of hostname => SiteConfig
+     * Map of hostname => SiteConfig.
      */
     private $configs = [];
 
@@ -30,14 +29,14 @@ class ArraySiteConfigBuilder implements SiteConfigBuilder
      *
      * @param $host
      *
-     * @return SiteConfig
-     *
      * @throws \OutOfRangeException If there is no config for $host
+     *
+     * @return SiteConfig
      */
     public function buildForHost($host)
     {
         $host = strtolower($host);
-        if (substr($host, 0, 4) == 'www.') {
+        if (substr($host, 0, 4) === 'www.') {
             $host = substr($host, 4);
         }
         if (isset($this->configs[$host])) {

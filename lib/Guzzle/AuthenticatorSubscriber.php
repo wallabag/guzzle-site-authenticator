@@ -2,15 +2,15 @@
 /**
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace BD\GuzzleSiteAuthenticator\Guzzle;
 
 use BD\GuzzleSiteAuthenticator\Authenticator\Factory;
 use BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfigBuilder;
-use GuzzleHttp\Event\SubscriberInterface;
 use GuzzleHttp\Event\BeforeEvent;
 use GuzzleHttp\Event\CompleteEvent;
+use GuzzleHttp\Event\SubscriberInterface;
 use GuzzleHttp\Message\RequestInterface;
-use OutOfRangeException;
 
 class AuthenticatorSubscriber implements SubscriberInterface
 {
@@ -19,19 +19,17 @@ class AuthenticatorSubscriber implements SubscriberInterface
     const MAX_RETRIES = 2;
     private static $retries = 0;
 
-    /**
-     * @var \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfigBuilder
-     */
+    /** @var SiteConfigBuilder */
     private $configBuilder;
 
-    /** @var \BD\GuzzleSiteAuthenticator\Authenticator\Factory */
+    /** @var Factory */
     private $authenticatorFactory;
 
     /**
      * AuthenticatorSubscriber constructor.
      *
-     * @param \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfigBuilder $configBuilder
-     * @param \BD\GuzzleSiteAuthenticator\Authenticator\Factory $authenticatorFactory
+     * @param SiteConfigBuilder $configBuilder
+     * @param Factory           $authenticatorFactory
      */
     public function __construct(SiteConfigBuilder $configBuilder, Factory $authenticatorFactory)
     {

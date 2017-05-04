@@ -7,14 +7,13 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Cookie\SetCookie;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 /**
  * @method login
  */
 class LoginFormAuthenticatorSpec extends ObjectBehavior
 {
-    function let($siteConfig)
+    public function let($siteConfig)
     {
         $siteConfig = new SiteConfig([
         'host' => 'example.com',
@@ -23,20 +22,20 @@ class LoginFormAuthenticatorSpec extends ObjectBehavior
             'passwordField' => 'password',
             'extraFields' => [
                 'action' => 'login',
-                'foo' => 'bar'
+                'foo' => 'bar',
             ],
             'username' => 'johndoe',
-            'password' => 'unkn0wn'
+            'password' => 'unkn0wn',
         ]);
         $this->beConstructedWith($siteConfig);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('BD\GuzzleSiteAuthenticator\Authenticator\LoginFormAuthenticator');
     }
 
-    function it_posts_a_login_request(ClientInterface $guzzle)
+    public function it_posts_a_login_request(ClientInterface $guzzle)
     {
         $guzzle->post(
             'http://example.com/login',
@@ -45,10 +44,10 @@ class LoginFormAuthenticatorSpec extends ObjectBehavior
                     'username' => 'johndoe',
                     'password' => 'unkn0wn',
                     'action' => 'login',
-                    'foo' => 'bar'
+                    'foo' => 'bar',
                 ],
                 'verify' => false,
-                'allow_redirects' => true
+                'allow_redirects' => true,
             ]
         )->shouldBeCalled();
 

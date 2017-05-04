@@ -2,6 +2,7 @@
 /**
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace BD\GuzzleSiteAuthenticator\SiteConfig;
 
 use InvalidArgumentException;
@@ -13,54 +14,63 @@ class SiteConfig
 {
     /**
      * The site's host name.
+     *
      * @var string
      */
     protected $host;
 
     /**
      * If the site requires a loogin or not.
+     *
      * @var bool
      */
     protected $requiresLogin;
 
     /**
      * XPath query used to check if the user was logged in or not.
+     *
      * @var string
      */
     protected $notLoggedInXpath;
 
     /**
      * URI login data must be sent to.
+     *
      * @var string
      */
     protected $loginUri;
 
     /**
      * Name of the username field.
+     *
      * @var string
      */
     protected $usernameField;
 
     /**
      * Name of the password field.
+     *
      * @var string
      */
     protected $passwordField;
 
     /**
      * Associative array of extra fields to send with the form.
+     *
      * @var array
      */
     protected $extraFields;
 
     /**
      * Username to use for login.
+     *
      * @var string
      */
     protected $username;
 
     /**
      * Password to use for login.
+     *
      * @var string
      */
     protected $password;
@@ -70,12 +80,11 @@ class SiteConfig
      *
      * @param array $properties
      *
-     * @throws \InvalidArgumentException If a property doesn't exist.
+     * @throws \InvalidArgumentException if a property doesn't exist
      */
     public function __construct(array $properties = [])
     {
-        foreach ($properties as $propertyName => $propertyValue)
-        {
+        foreach ($properties as $propertyName => $propertyValue) {
             if (!property_exists($this, $propertyName)) {
                 throw new InvalidArgumentException("Unknown property $propertyName");
             }
@@ -84,7 +93,7 @@ class SiteConfig
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function requiresLogin()
     {
@@ -92,8 +101,9 @@ class SiteConfig
     }
 
     /**
-     * @param boolean $requiresLogin
-     * @return \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig
+     * @param bool $requiresLogin
+     *
+     * @return SiteConfig
      */
     public function setRequiresLogin($requiresLogin)
     {
@@ -112,7 +122,8 @@ class SiteConfig
 
     /**
      * @param string $notLoggedInXpath
-     * @return \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig
+     *
+     * @return SiteConfig
      */
     public function setNotLoggedInXpath($notLoggedInXpath)
     {
@@ -131,7 +142,8 @@ class SiteConfig
 
     /**
      * @param string $loginUri
-     * @return \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig
+     *
+     * @return SiteConfig
      */
     public function setLoginUri($loginUri)
     {
@@ -150,7 +162,8 @@ class SiteConfig
 
     /**
      * @param string $usernameField
-     * @return \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig
+     *
+     * @return SiteConfig
      */
     public function setUsernameField($usernameField)
     {
@@ -164,13 +177,13 @@ class SiteConfig
      */
     public function getPasswordField()
     {
-
         return $this->passwordField;
     }
 
     /**
      * @param string $passwordField
-     * @return \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig
+     *
+     * @return SiteConfig
      */
     public function setPasswordField($passwordField)
     {
@@ -189,7 +202,8 @@ class SiteConfig
 
     /**
      * @param array $extraFields
-     * @return \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig
+     *
+     * @return SiteConfig
      */
     public function setExtraFields($extraFields)
     {
@@ -216,7 +230,7 @@ class SiteConfig
         $this->host = $host;
 
         return $this;
-}
+    }
 
     /**
      * @return mixed
@@ -236,7 +250,7 @@ class SiteConfig
         $this->username = $username;
 
         return $this;
-}
+    }
 
     /**
      * @return string
@@ -256,5 +270,5 @@ class SiteConfig
         $this->password = $password;
 
         return $this;
-}
+    }
 }
