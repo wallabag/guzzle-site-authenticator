@@ -1,6 +1,6 @@
 # Guzzle site authenticator
 
-[![Build Status](https://travis-ci.org/bdunogier/guzzle-site-authenticator.svg)](https://travis-ci.org/bdunogier/guzzle-site-authenticator)
+[![Build Status](https://travis-ci.org/wallabag/guzzle-site-authenticator.svg)](https://travis-ci.org/wallabag/guzzle-site-authenticator)
 
 This package is a plugin for [guzzle](http://packagist.org/packages/guzzlehttp/guzzle) 5.x. It provides a subscriber
 that can authenticate requests by posting login information.
@@ -72,7 +72,6 @@ parameters:
 ```
 
 ## Implementations
-Used in a pull-request to [wallabag](http://github.com/wallabag/wallabag), a read it later web application, to fetch
-content from sites that require a login.
+Used by [wallabag](http://github.com/wallabag/wallabag), a read it later web application, to fetch content from sites that require a login.
 
 It implements a custom `SiteConfigBuilder`, based on sites configuration provided by [j0k3r/graby](http://github.com/j0k3r/graby).
