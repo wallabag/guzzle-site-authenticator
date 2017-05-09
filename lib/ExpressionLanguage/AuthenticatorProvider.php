@@ -48,13 +48,16 @@ class AuthenticatorProvider implements ExpressionFunctionProviderInterface
                 throw new Exception('Not supported');
             },
             function (array $arguments, $xpathQuery, $html) {
-                libxml_use_internal_errors(true);
+                $useInternalErrors = libxml_use_internal_errors(true);
+
                 $doc = new \DOMDocument();
                 $doc->loadHTML($html, LIBXML_NOCDATA | LIBXML_NOWARNING | LIBXML_NOERROR);
 
                 $xpath = new \DOMXPath($doc);
                 $domNodeList = $xpath->query($xpathQuery);
                 $domNode = $domNodeList->item(0);
+
+                libxml_use_internal_errors($useInternalErrors);
 
                 return $domNode->attributes->getNamedItem('value')->nodeValue;
             }

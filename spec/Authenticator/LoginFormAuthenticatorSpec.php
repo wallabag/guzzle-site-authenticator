@@ -16,13 +16,13 @@ class LoginFormAuthenticatorSpec extends ObjectBehavior
     public function let($siteConfig)
     {
         $siteConfig = new SiteConfig([
-        'host' => 'example.com',
+            'host' => 'example.com',
             'loginUri' => 'http://example.com/login',
             'usernameField' => 'username',
             'passwordField' => 'password',
             'extraFields' => [
-                'action=login',
-                'foo=bar',
+                'action' => 'login',
+                'foo' => 'bar',
             ],
             'username' => 'johndoe',
             'password' => 'unkn0wn',
