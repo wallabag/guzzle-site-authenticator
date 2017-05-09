@@ -22,7 +22,7 @@ class LoginFormAuthenticatorSpec extends ObjectBehavior
             'passwordField' => 'password',
             'extraFields' => [
                 'action=login',
-                'foo=bar'
+                'foo=bar',
             ],
             'username' => 'johndoe',
             'password' => 'unkn0wn',

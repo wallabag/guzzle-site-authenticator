@@ -2,10 +2,11 @@
 /**
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace BD\GuzzleSiteAuthenticator\Guzzle;
 
-use GuzzleHttp\Event\SubscriberInterface;
 use GuzzleHttp\Event\CompleteEvent;
+use GuzzleHttp\Event\SubscriberInterface;
 
 /**
  * Fixes url encoding of a parameter guzzle fails with.
@@ -30,6 +31,6 @@ class FixupMondeDiplomatiqueUriSubscriber implements SubscriberInterface
             return;
         }
 
-        $response->setHeader('Location',  str_replace($badParameter, urlencode($badParameter), $uri));
+        $response->setHeader('Location', str_replace($badParameter, urlencode($badParameter), $uri));
     }
 }

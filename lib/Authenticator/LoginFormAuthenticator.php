@@ -2,8 +2,8 @@
 
 namespace BD\GuzzleSiteAuthenticator\Authenticator;
 
-use BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig;
 use BD\GuzzleSiteAuthenticator\ExpressionLanguage\AuthenticatorProvider;
+use BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Cookie\CookieJar;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
@@ -94,7 +94,7 @@ class LoginFormAuthenticator implements Authenticator
                 $fieldValue = $expressionLanguage->evaluate(
                     substr($fieldValue, 2),
                     [
-                        'config' => $this->siteConfig
+                        'config' => $this->siteConfig,
                     ]
                 );
             }

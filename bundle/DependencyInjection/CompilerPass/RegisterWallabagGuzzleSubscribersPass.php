@@ -2,6 +2,7 @@
 /**
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace BD\GuzzleSiteAuthenticatorBundle\DependencyInjection\CompilerPass;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -18,7 +19,7 @@ class RegisterWallabagGuzzleSubscribersPass implements CompilerPassInterface
 
         $definition = $container->getDefinition('wallabag_core.guzzle.http_client_factory');
         $definition->addMethodCall(
-            "addSubscriber", [
+            'addSubscriber', [
                 new Reference('bd_guzzle_site_authenticator.monde_diplomatique_uri_fix_subscriber'),
             ]
         );

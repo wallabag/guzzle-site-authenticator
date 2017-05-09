@@ -32,7 +32,7 @@ class AuthenticatorProvider implements ExpressionFunctionProviderInterface
         return new ExpressionFunction(
             'request_html',
             function () {
-                throw new Exception("Not supported");
+                throw new Exception('Not supported');
             },
             function (array $arguments, $uri, array $options = []) {
                 return $this->guzzle->get($uri, $options)->getBody();
@@ -45,11 +45,12 @@ class AuthenticatorProvider implements ExpressionFunctionProviderInterface
         return new ExpressionFunction(
             'xpath',
             function () {
-                throw new Exception("Not supported");
+                throw new Exception('Not supported');
             },
             function (array $arguments, $xpathQuery, $html) {
-                $doc = new \DOMDocument;
-                @$doc->loadHTML($html, LIBXML_NOCDATA | LIBXML_NOWARNING | LIBXML_NOERROR);
+                libxml_use_internal_errors(true);
+                $doc = new \DOMDocument();
+                $doc->loadHTML($html, LIBXML_NOCDATA | LIBXML_NOWARNING | LIBXML_NOERROR);
 
                 $xpath = new \DOMXPath($doc);
                 $domNodeList = $xpath->query($xpathQuery);

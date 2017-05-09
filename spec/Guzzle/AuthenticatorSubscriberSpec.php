@@ -20,6 +20,7 @@ class AuthenticatorSubscriberSpec extends ObjectBehavior
     public function let(
         SiteConfigBuilder $siteConfigBuilder,
         SiteConfig $siteConfig,
+        Factory $authenticatorFactory,
         ClientInterface $guzzle,
         Emitter $emitter,
         BeforeEvent $beforeEvent,
