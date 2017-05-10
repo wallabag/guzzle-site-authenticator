@@ -71,8 +71,9 @@ class AuthenticatorSubscriber implements SubscriberInterface
         }
 
         $authenticator = $this->authenticatorFactory->buildFromSiteConfig($config);
+        $isLoginRequired = $authenticator->isLoginRequired($event->getResponse()->getBody());
 
-        if ($authenticator->isLoginRequired($event->getResponse()->getBody()) && self::$retries < self::MAX_RETRIES) {
+        if ($isLoginRequired && self::$retries < self::MAX_RETRIES) {
             $client = $event->getClient();
 
             $emitter = $client->getEmitter();

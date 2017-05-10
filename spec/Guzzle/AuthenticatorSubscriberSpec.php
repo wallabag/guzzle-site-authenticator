@@ -20,13 +20,13 @@ class AuthenticatorSubscriberSpec extends ObjectBehavior
     public function let(
         SiteConfigBuilder $siteConfigBuilder,
         SiteConfig $siteConfig,
+        Factory $authenticatorFactory,
         ClientInterface $guzzle,
         Emitter $emitter,
         BeforeEvent $beforeEvent,
         CompleteEvent $completeEvent,
         RequestInterface $request,
-        ResponseInterface $response,
-        Factory $authenticatorFactory)
+        ResponseInterface $response)
     {
         $siteConfig->getHost()->willReturn('example.com');
         $siteConfigBuilder->buildForHost('example.com')->willReturn($siteConfig);

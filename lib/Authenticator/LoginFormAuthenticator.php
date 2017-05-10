@@ -2,9 +2,11 @@
 
 namespace BD\GuzzleSiteAuthenticator\Authenticator;
 
+use BD\GuzzleSiteAuthenticator\ExpressionLanguage\AuthenticatorProvider;
 use BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Cookie\CookieJar;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 class LoginFormAuthenticator implements Authenticator
 {
@@ -25,7 +27,7 @@ class LoginFormAuthenticator implements Authenticator
         $postFields = [
             $this->siteConfig->getUsernameField() => $this->siteConfig->getUsername(),
             $this->siteConfig->getPasswordField() => $this->siteConfig->getPassword(),
-        ] + $this->siteConfig->getExtraFields();
+        ] + $this->getExtraFields($guzzle);
 
         $guzzle->post(
             $this->siteConfig->getLoginUri(),
@@ -71,5 +73,45 @@ class LoginFormAuthenticator implements Authenticator
         libxml_use_internal_errors($useInternalErrors);
 
         return $result;
+    }
+
+    /**
+     * Returns extra fields from the configuration.
+     * Evaluates any field value that is an expression language string.
+     *
+     * @param ClientInterface $guzzle
+     *
+     * @return array
+     */
+    private function getExtraFields(ClientInterface $guzzle)
+    {
+        $extraFields = [];
+
+        foreach ($this->siteConfig->getExtraFields() as $fieldName => $fieldValue) {
+            if (substr($fieldValue, 0, 2) === '@=') {
+                $expressionLanguage = $this->getExpressionLanguage($guzzle);
+                $fieldValue = $expressionLanguage->evaluate(
+                    substr($fieldValue, 2),
+                    [
+                        'config' => $this->siteConfig,
+                    ]
+                );
+            }
+
+            $extraFields[$fieldName] = $fieldValue;
+        }
+
+        return $extraFields;
+    }
+
+    /**
+     * @return ExpressionLanguage
+     */
+    private function getExpressionLanguage(ClientInterface $guzzle)
+    {
+        return new ExpressionLanguage(
+            null,
+            [new AuthenticatorProvider($guzzle)]
+        );
     }
 }
