@@ -11,8 +11,11 @@ use GuzzleHttp\Event\BeforeEvent;
 use GuzzleHttp\Event\CompleteEvent;
 use GuzzleHttp\Event\SubscriberInterface;
 use GuzzleHttp\Message\RequestInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
-class AuthenticatorSubscriber implements SubscriberInterface
+class AuthenticatorSubscriber implements SubscriberInterface, LoggerAwareInterface
 {
     // avoid loop when login failed which can just be a bad login/password
     // after 2 attempts, we skip the login
@@ -35,6 +38,12 @@ class AuthenticatorSubscriber implements SubscriberInterface
     {
         $this->configBuilder = $configBuilder;
         $this->authenticatorFactory = $authenticatorFactory;
+        $this->logger = new NullLogger();
+    }
+
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
     }
 
     public function getEvents()
@@ -49,6 +58,8 @@ class AuthenticatorSubscriber implements SubscriberInterface
     {
         $config = $this->buildSiteConfig($event->getRequest());
         if ($config === false || !$config->requiresLogin()) {
+            $this->logger->debug('loginIfRequired> will not require login');
+
             return;
         }
 
@@ -56,6 +67,8 @@ class AuthenticatorSubscriber implements SubscriberInterface
         $authenticator = $this->authenticatorFactory->buildFromSiteConfig($config);
 
         if (!$authenticator->isLoggedIn($client)) {
+            $this->logger->debug('loginIfRequired> user is not logged in, attach authenticator');
+
             $emitter = $client->getEmitter();
             $emitter->detach($this);
             $authenticator->login($client);
@@ -67,11 +80,15 @@ class AuthenticatorSubscriber implements SubscriberInterface
     {
         $config = $this->buildSiteConfig($event->getRequest());
         if ($config === false || !$config->requiresLogin()) {
+            $this->logger->debug('loginIfRequested> will not require login');
+
             return;
         }
 
         $authenticator = $this->authenticatorFactory->buildFromSiteConfig($config);
         $isLoginRequired = $authenticator->isLoginRequired($event->getResponse()->getBody());
+
+        $this->logger->debug('loginIfRequested> retry #' . self::$retries . ' with login ' . ($isLoginRequired ?: 'not ') . 'required');
 
         if ($isLoginRequired && self::$retries < self::MAX_RETRIES) {
             $client = $event->getClient();

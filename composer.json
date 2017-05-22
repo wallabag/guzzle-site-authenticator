@@ -2,19 +2,21 @@
     "name": "bdunogier/guzzle-site-authenticator",
     "description": "A guzzle plugin that adds, if necessary, authentication data to requests. Uses credentials and cookies, with login requests to the sites.",
     "license": "MIT",
-    "require": {
-        "guzzlehttp/guzzle": "^5.2.0",
-        "symfony/expression-language": "^3.2"
-    },
     "authors": [
         {
             "name": "Bertrand Dunogier",
             "email": "bertrand.dunogier@gmail.com"
         }
     ],
+    "require": {
+        "guzzlehttp/guzzle": "^5.2.0",
+        "symfony/expression-language": "^3.2",
+        "psr/log": "^1.0"
+    },
     "require-dev": {
         "phpspec/phpspec": "^3.0",
-        "friendsofphp/php-cs-fixer": "~2.0"
+        "friendsofphp/php-cs-fixer": "~2.0",
+        "monolog/monolog": "^1.13"
     },
     "autoload": {
         "psr-4": {
