@@ -28,6 +28,9 @@ class AuthenticatorSubscriber implements SubscriberInterface, LoggerAwareInterfa
     /** @var Factory */
     private $authenticatorFactory;
 
+    /** @var LoggerInterface */
+    private $logger;
+
     /**
      * AuthenticatorSubscriber constructor.
      *
