@@ -22,8 +22,8 @@ class ArraySiteConfigBuilderSpec extends ObjectBehavior
         $this->buildForHost('example.com')->shouldReturnAnInstanceOf('BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig');
     }
 
-    public function it_returns_the_default_config_on_a_host_that_does_not_exist()
+    public function it_returns_false_on_a_host_that_does_not_exist()
     {
-        $this->buildForHost('anotherexample.com')->shouldReturnAnInstanceOf('BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig');
+        $this->buildForHost('anotherexample.com')->shouldReturn(false);
     }
 }
