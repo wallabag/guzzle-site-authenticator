@@ -22,6 +22,9 @@ class LoginFormAuthenticator implements Authenticator
         $this->siteConfig = $siteConfig;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function login(ClientInterface $guzzle)
     {
         $postFields = [
@@ -37,6 +40,9 @@ class LoginFormAuthenticator implements Authenticator
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function isLoggedIn(ClientInterface $guzzle)
     {
         if (($cookieJar = $guzzle->getDefaultOption('cookies')) instanceof CookieJar) {
@@ -53,11 +59,7 @@ class LoginFormAuthenticator implements Authenticator
     }
 
     /**
-     * Checks from the HTML of a page if authentication is requested by a grabbed page.
-     *
-     * @param string $html
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isLoginRequired($html)
     {

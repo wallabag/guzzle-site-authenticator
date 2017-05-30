@@ -25,13 +25,7 @@ class ArraySiteConfigBuilder implements SiteConfigBuilder
     }
 
     /**
-     * Builds the SiteConfig for a host.
-     *
-     * @param $host
-     *
-     * @throws \OutOfRangeException If there is no config for $host
-     *
-     * @return SiteConfig
+     * {@inheritdoc}
      */
     public function buildForHost($host)
     {

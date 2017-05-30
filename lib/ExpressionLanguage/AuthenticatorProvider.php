@@ -19,6 +19,9 @@ class AuthenticatorProvider implements ExpressionFunctionProviderInterface
         $this->guzzle = $guzzle;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getFunctions()
     {
         return [
