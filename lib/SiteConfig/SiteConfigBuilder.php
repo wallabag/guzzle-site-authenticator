@@ -14,7 +14,7 @@ interface SiteConfigBuilder
      *
      * @throws \OutOfRangeException If there is no config for $host
      *
-     * @return SiteConfig
+     * @return SiteConfig|false
      */
     public function buildForHost($host);
 }

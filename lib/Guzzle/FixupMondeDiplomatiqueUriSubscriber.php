@@ -13,6 +13,9 @@ use GuzzleHttp\Event\SubscriberInterface;
  */
 class FixupMondeDiplomatiqueUriSubscriber implements SubscriberInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function getEvents()
     {
         return ['complete' => [['fixUri', 500]]];
