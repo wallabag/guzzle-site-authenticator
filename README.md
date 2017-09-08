@@ -20,7 +20,7 @@ The guzzle subscriber, `Guzzle\AuthenticatorSubscriber`, must be attached to the
 bundle as `@bd_guzzle_site_authenticator.authenticator_subscriber`:
 
 ```php
-$client = new GuzzleHttp\Client(['defaults' => ['cookies' => new FileCookieJar('/tmp/cookiejar.json']]);
+$client = new GuzzleHttp\Client(['defaults' => ['cookies' => new FileCookieJar('/tmp/cookiejar.json')]]);
 $client->getEmitter()->attach(
     $container->get('bd_guzzle_site_authenticator.authenticator_subscriber')
 );
