@@ -2,34 +2,26 @@
 
 namespace BD\GuzzleSiteAuthenticator\Authenticator;
 
-use GuzzleHttp\ClientInterface;
+use Http\Client\Common\HttpMethodsClient;
+use Psr\Http\Message\ResponseInterface;
 
 interface Authenticator
 {
     /**
-     * Logs the configured user on the given Guzzle client.
+     * Logs the configured user on the given Http client.
      *
-     * @param ClientInterface $guzzle
+     * @param HttpMethodsClient $httpClient
      *
-     * @return self
+     * @return false|ResponseInterface
      */
-    public function login(ClientInterface $guzzle);
+    public function login(HttpMethodsClient $httpClient);
 
     /**
-     * Checks if we are logged into the site, but without calling the server (e.g. do we have a Cookie).
+     * Checks from the HTTP response if authentication is requested by a grabbed page.
      *
-     * @param ClientInterface $guzzle
+     * @param ResponseInterface $response
      *
      * @return bool
      */
-    public function isLoggedIn(ClientInterface $guzzle);
-
-    /**
-     * Checks from the HTML of a page if authentication is requested by a grabbed page.
-     *
-     * @param string $html
-     *
-     * @return bool
-     */
-    public function isLoginRequired($html);
+    public function isLoginRequired(ResponseInterface $response);
 }

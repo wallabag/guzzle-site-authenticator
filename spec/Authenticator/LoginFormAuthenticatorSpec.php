@@ -2,10 +2,9 @@
 
 namespace spec\BD\GuzzleSiteAuthenticator\Authenticator;
 
+use BD\GuzzleSiteAuthenticator\Authenticator\LoginFormAuthenticator;
 use BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Cookie\CookieJar;
-use GuzzleHttp\Cookie\SetCookie;
+use Http\Client\Common\HttpMethodsClient;
 use PhpSpec\ObjectBehavior;
 
 /**
@@ -13,7 +12,7 @@ use PhpSpec\ObjectBehavior;
  */
 class LoginFormAuthenticatorSpec extends ObjectBehavior
 {
-    public function let($siteConfig)
+    function let()
     {
         $siteConfig = new SiteConfig([
             'host' => 'example.com',
@@ -30,29 +29,19 @@ class LoginFormAuthenticatorSpec extends ObjectBehavior
         $this->beConstructedWith($siteConfig);
     }
 
-    public function it_is_initializable()
+    function it_is_initializable()
     {
-        $this->shouldHaveType('BD\GuzzleSiteAuthenticator\Authenticator\LoginFormAuthenticator');
+        $this->shouldHaveType(LoginFormAuthenticator::class);
     }
 
-    public function it_posts_a_login_request(ClientInterface $guzzle)
+    function it_posts_a_login_request(HttpMethodsClient $httpClient)
     {
-        $guzzle->post(
+        $httpClient->post(
             'http://example.com/login',
-            [
-                'body' => [
-                    'username' => 'johndoe',
-                    'password' => 'unkn0wn',
-                    'action' => 'login',
-                    'foo' => 'bar',
-                ],
-                'verify' => false,
-                'allow_redirects' => true,
-            ]
+            ['Content-Type' => 'application/x-www-form-urlencoded'],
+            'username=johndoe&password=unkn0wn&action=login&foo=bar'
         )->shouldBeCalled();
 
-        $guzzle->getDefaultOption('cookies')->willReturn(new CookieJar(false, new SetCookie()));
-
-        $this->login($guzzle);
+        $this->login($httpClient);
     }
 }

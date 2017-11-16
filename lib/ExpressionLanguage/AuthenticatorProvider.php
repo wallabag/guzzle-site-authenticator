@@ -3,20 +3,20 @@
 namespace BD\GuzzleSiteAuthenticator\ExpressionLanguage;
 
 use Exception;
-use GuzzleHttp\ClientInterface;
+use Http\Client\Common\HttpMethodsClient;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 
 class AuthenticatorProvider implements ExpressionFunctionProviderInterface
 {
     /**
-     * @var ClientInterface
+     * @var HttpMethodsClient
      */
-    private $guzzle;
+    private $httpClient;
 
-    public function __construct(ClientInterface $guzzle)
+    public function __construct(HttpMethodsClient $httpClient)
     {
-        $this->guzzle = $guzzle;
+        $this->httpClient = $httpClient;
     }
 
     /**
@@ -38,7 +38,7 @@ class AuthenticatorProvider implements ExpressionFunctionProviderInterface
                 throw new Exception('Not supported');
             },
             function (array $arguments, $uri, array $options = []) {
-                return $this->guzzle->get($uri, $options)->getBody();
+                return (string) $this->httpClient->get($uri, $options)->getBody();
             }
         );
     }

@@ -4,6 +4,7 @@ namespace spec\BD\GuzzleSiteAuthenticator\SiteConfig;
 
 use BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig;
 use PhpSpec\ObjectBehavior;
+use BD\GuzzleSiteAuthenticator\SiteConfig\ArraySiteConfigBuilder;
 
 class ArraySiteConfigBuilderSpec extends ObjectBehavior
 {
@@ -14,12 +15,12 @@ class ArraySiteConfigBuilderSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType('BD\GuzzleSiteAuthenticator\SiteConfig\ArraySiteConfigBuilder');
+        $this->shouldHaveType(ArraySiteConfigBuilder::class);
     }
 
     public function it_returns_site_config_that_exists(SiteConfig $siteConfig)
     {
-        $this->buildForHost('example.com')->shouldReturnAnInstanceOf('BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig');
+        $this->buildForHost('example.com')->shouldReturnAnInstanceOf(SiteConfig::class);
     }
 
     public function it_returns_false_on_a_host_that_does_not_exist()

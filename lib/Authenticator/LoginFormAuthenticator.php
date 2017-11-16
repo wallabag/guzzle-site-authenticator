@@ -4,15 +4,12 @@ namespace BD\GuzzleSiteAuthenticator\Authenticator;
 
 use BD\GuzzleSiteAuthenticator\ExpressionLanguage\AuthenticatorProvider;
 use BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Cookie\CookieJar;
+use Http\Client\Common\HttpMethodsClient;
+use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 class LoginFormAuthenticator implements Authenticator
 {
-    /** @var \GuzzleHttp\Client */
-    protected $guzzle;
-
     /** @var SiteConfig */
     private $siteConfig;
 
@@ -25,49 +22,30 @@ class LoginFormAuthenticator implements Authenticator
     /**
      * {@inheritdoc}
      */
-    public function login(ClientInterface $guzzle)
+    public function login(HttpMethodsClient $httpClient)
     {
         $postFields = [
             $this->siteConfig->getUsernameField() => $this->siteConfig->getUsername(),
             $this->siteConfig->getPasswordField() => $this->siteConfig->getPassword(),
-        ] + $this->getExtraFields($guzzle);
+        ] + $this->getExtraFields($httpClient);
 
-        $guzzle->post(
+        return $httpClient->post(
             $this->siteConfig->getLoginUri(),
-            ['body' => $postFields, 'allow_redirects' => true, 'verify' => false]
+            ['Content-Type' => 'application/x-www-form-urlencoded'],
+            http_build_query($postFields)
         );
-
-        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function isLoggedIn(ClientInterface $guzzle)
-    {
-        if (($cookieJar = $guzzle->getDefaultOption('cookies')) instanceof CookieJar) {
-            /** @var \GuzzleHttp\Cookie\SetCookie $cookie */
-            foreach ($cookieJar as $cookie) {
-                // check required cookies
-                if ($cookie->getDomain() === $this->siteConfig->getHost()) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isLoginRequired($html)
+    public function isLoginRequired(ResponseInterface $response)
     {
         $useInternalErrors = libxml_use_internal_errors(true);
 
         // need to check for the login dom element ($options['not_logged_in_xpath']) in the HTML
         $doc = new \DOMDocument();
-        $doc->loadHTML($html);
+        $doc->loadHTML((string) $response->getBody());
 
         $xpath = new \DOMXPath($doc);
         $result = ($xpath->evaluate($this->siteConfig->getNotLoggedInXpath())->length > 0);
@@ -81,17 +59,17 @@ class LoginFormAuthenticator implements Authenticator
      * Returns extra fields from the configuration.
      * Evaluates any field value that is an expression language string.
      *
-     * @param ClientInterface $guzzle
+     * @param HttpMethodsClient $httpClient
      *
      * @return array
      */
-    private function getExtraFields(ClientInterface $guzzle)
+    private function getExtraFields(HttpMethodsClient $httpClient)
     {
         $extraFields = [];
 
         foreach ($this->siteConfig->getExtraFields() as $fieldName => $fieldValue) {
             if (substr($fieldValue, 0, 2) === '@=') {
-                $expressionLanguage = $this->getExpressionLanguage($guzzle);
+                $expressionLanguage = $this->getExpressionLanguage($httpClient);
                 $fieldValue = $expressionLanguage->evaluate(
                     substr($fieldValue, 2),
                     [
@@ -107,13 +85,14 @@ class LoginFormAuthenticator implements Authenticator
     }
 
     /**
+     * @param HttpMethodsClient $httpClient
      * @return ExpressionLanguage
      */
-    private function getExpressionLanguage(ClientInterface $guzzle)
+    private function getExpressionLanguage(HttpMethodsClient $httpClient)
     {
         return new ExpressionLanguage(
             null,
-            [new AuthenticatorProvider($guzzle)]
+            [new AuthenticatorProvider($httpClient)]
         );
     }
 }
