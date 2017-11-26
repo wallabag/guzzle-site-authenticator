@@ -9,10 +9,10 @@
         }
     ],
     "require": {
-        "guzzlehttp/guzzle": "^5.2.0",
         "symfony/expression-language": "^3.2",
         "psr/log": "^1.0",
-        "php-http/client-common": "^1.0"
+        "php-http/client-common": "^1.0",
+        "php-http/discovery": "^1.0"
     },
     "require-dev": {
         "phpspec/phpspec": "^3.0",

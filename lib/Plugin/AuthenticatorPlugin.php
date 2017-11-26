@@ -6,6 +6,8 @@ use BD\GuzzleSiteAuthenticator\Authenticator\Factory;
 use BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfigBuilder;
 use Http\Client\Common\HttpMethodsClient;
 use Http\Client\Common\Plugin;
+use Http\Discovery\HttpClientDiscovery;
+use Http\Discovery\MessageFactoryDiscovery;
 use Http\Message\Cookie;
 use Http\Message\CookieJar;
 use Http\Promise\FulfilledPromise;
@@ -23,12 +25,12 @@ class AuthenticatorPlugin implements Plugin
     private $client;
     private $cookieJar;
 
-    public function __construct(SiteConfigBuilder $configBuilder, Factory $authenticatorFactory, HttpMethodsClient $client, CookieJar $cookieJar, LoggerInterface $logger = null)
+    public function __construct(SiteConfigBuilder $configBuilder, Factory $authenticatorFactory, HttpMethodsClient $client = null, CookieJar $cookieJar = null, LoggerInterface $logger = null)
     {
         $this->configBuilder = $configBuilder;
         $this->authenticatorFactory = $authenticatorFactory;
-        $this->client = $client;
-        $this->cookieJar = $cookieJar;
+        $this->client = $client ?: new HttpMethodsClient(HttpClientDiscovery::find(), MessageFactoryDiscovery::find());
+        $this->cookieJar = $cookieJar ?: new CookieJar();
         $this->logger = $logger ?: new NullLogger();
     }
 
