@@ -32,7 +32,6 @@ class ArraySiteConfigBuilder implements SiteConfigBuilder
             return $this->configs[$host];
         }
 
-        // TODO: NullSiteConfig
-        return false;
+        return new NullSiteConfig();
     }
 }

@@ -60,7 +60,7 @@ class AuthenticatorPlugin implements Plugin
     private function loginIfRequired(RequestInterface $request)
     {
         $config = $this->configBuilder->buildForHost($request->getUri()->getAuthority());
-        if ($config && $config->requiresLogin()) {
+        if ($config->requiresLogin()) {
             $host = $config->getHost();
             $this->logger->debug('AuthenticatorPlugin: require login to host', ['host' => $host]);
             $authenticator = $this->authenticatorFactory->buildFromSiteConfig($config);
@@ -76,7 +76,7 @@ class AuthenticatorPlugin implements Plugin
     public function loginIfRequested(ResponseInterface $response)
     {
         $config = $this->configBuilder->buildForHost(current($response->getHeader('Host')));
-        if ($config && $config->requiresLogin()) {
+        if ($config->requiresLogin()) {
             $authenticator = $this->authenticatorFactory->buildFromSiteConfig($config);
             if ($authenticator->isLoginRequired($response)) {
                 $this->logger->debug('AuthenticatorPlugin: login required to host', ['host' => $config->getHost()]);

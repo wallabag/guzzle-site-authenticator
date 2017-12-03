@@ -5,6 +5,7 @@ namespace spec\BD\GuzzleSiteAuthenticator\Plugin;
 use BD\GuzzleSiteAuthenticator\Authenticator\Authenticator;
 use BD\GuzzleSiteAuthenticator\Authenticator\Factory;
 use BD\GuzzleSiteAuthenticator\Plugin\AuthenticatorPlugin;
+use BD\GuzzleSiteAuthenticator\SiteConfig\NullSiteConfig;
 use BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig;
 use BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfigBuilder;
 use GuzzleHttp\Psr7\Request;
@@ -122,7 +123,7 @@ class AuthenticatorPluginSpec extends ObjectBehavior
         Factory $authenticatorFactory,
         Authenticator $authenticator
     ) {
-        $siteConfigBuilder->buildForHost(Argument::any())->willReturn(false);
+        $siteConfigBuilder->buildForHost(Argument::any())->willReturn(new NullSiteConfig());
 
         $authenticator->login(Argument::any())->shouldNotBeCalled();
 
