@@ -25,5 +25,10 @@ class RegisterWallabagGuzzleSubscribersPass implements CompilerPassInterface
                 new Reference('bd_guzzle_site_authenticator.monde_diplomatique_uri_fix_subscriber'),
             ]
         );
+        $definition->addMethodCall(
+            'addSubscriber', [
+                new Reference('bd_guzzle_site_authenticator.lemonde_redirect_subscriber'),
+            ]
+        );
     }
 }
