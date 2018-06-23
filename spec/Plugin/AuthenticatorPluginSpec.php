@@ -11,28 +11,28 @@ use BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfigBuilder;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Http\Client\Common\HttpMethodsClient;
+use Http\Client\Common\Plugin;
 use Http\Message\CookieJar;
 use Http\Promise\FulfilledPromise;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Http\Client\Common\Plugin;
 
 class AuthenticatorPluginSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         SiteConfigBuilder $siteConfigBuilder,
         Factory $authenticatorFactory,
         HttpMethodsClient $httpClient
     ) {
-        $this->beConstructedWith($siteConfigBuilder, $authenticatorFactory, $httpClient, new CookieJar);
+        $this->beConstructedWith($siteConfigBuilder, $authenticatorFactory, $httpClient, new CookieJar());
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(AuthenticatorPlugin::class);
     }
 
-    function it_is_a_plugin()
+    public function it_is_a_plugin()
     {
         $this->shouldImplement(Plugin::class);
     }
@@ -45,12 +45,12 @@ class AuthenticatorPluginSpec extends ObjectBehavior
     ) {
         $siteConfigBuilder->buildForHost('example.com')->willReturn(new SiteConfig([
             'host' => 'example.com',
-            'requiresLogin' => false
+            'requiresLogin' => false,
         ]));
         $authenticator->login(Argument::any())->shouldNotBeCalled();
         $authenticatorFactory->buildFromSiteConfig()->willReturn($authenticator);
 
-        $this->beConstructedWith($siteConfigBuilder, $authenticatorFactory, $httpMethodsClient, new CookieJar);
+        $this->beConstructedWith($siteConfigBuilder, $authenticatorFactory, $httpMethodsClient, new CookieJar());
 
         $response = new Response(200, ['host' => 'example.com']);
         $next = function () use ($response) {
@@ -71,7 +71,6 @@ class AuthenticatorPluginSpec extends ObjectBehavior
             'loginUri' => 'http://example.com/login',
             'usernameField' => '_username',
             'passwordField' => '_password',
-
         ]);
         $siteConfigBuilder->buildForHost('example.com')->willReturn($siteConfig);
         $authenticatorFactory->buildFromSiteConfig($siteConfig)->willReturn($authenticator);
@@ -79,7 +78,7 @@ class AuthenticatorPluginSpec extends ObjectBehavior
 
         $authenticator->login(Argument::any())->shouldBeCalled();
 
-        $this->beConstructedWith($siteConfigBuilder, $authenticatorFactory, $httpMethodsClient, new CookieJar);
+        $this->beConstructedWith($siteConfigBuilder, $authenticatorFactory, $httpMethodsClient, new CookieJar());
 
         $response = new Response(200, ['host' => 'example.com']);
         $next = function () use ($response) {
@@ -100,7 +99,6 @@ class AuthenticatorPluginSpec extends ObjectBehavior
             'loginUri' => 'http://example.com/login',
             'usernameField' => '_username',
             'passwordField' => '_password',
-
         ]);
         $siteConfigBuilder->buildForHost('example.com')->willReturn($siteConfig);
         $authenticatorFactory->buildFromSiteConfig($siteConfig)->willReturn($authenticator);
@@ -108,7 +106,7 @@ class AuthenticatorPluginSpec extends ObjectBehavior
 
         $authenticator->login(Argument::any())->shouldBeCalledTimes(2);
 
-        $this->beConstructedWith($siteConfigBuilder, $authenticatorFactory, $httpMethodsClient, new CookieJar);
+        $this->beConstructedWith($siteConfigBuilder, $authenticatorFactory, $httpMethodsClient, new CookieJar());
 
         $response = new Response(200, ['host' => 'example.com']);
         $next = function () use ($response) {
@@ -127,7 +125,7 @@ class AuthenticatorPluginSpec extends ObjectBehavior
 
         $authenticator->login(Argument::any())->shouldNotBeCalled();
 
-        $this->beConstructedWith($siteConfigBuilder, $authenticatorFactory, $httpMethodsClient, new CookieJar);
+        $this->beConstructedWith($siteConfigBuilder, $authenticatorFactory, $httpMethodsClient, new CookieJar());
 
         $response = new Response(200, ['host' => 'example.com']);
         $next = function () use ($response) {

@@ -13,7 +13,7 @@ use PhpSpec\ObjectBehavior;
  */
 class LoginFormAuthenticatorSpec extends ObjectBehavior
 {
-    function let()
+    public function let()
     {
         $siteConfig = new SiteConfig([
             'host' => 'example.com',
@@ -30,12 +30,12 @@ class LoginFormAuthenticatorSpec extends ObjectBehavior
         $this->beConstructedWith($siteConfig);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(LoginFormAuthenticator::class);
     }
 
-    function it_posts_a_login_request(HttpMethodsClient $httpClient)
+    public function it_posts_a_login_request(HttpMethodsClient $httpClient)
     {
         $httpClient->post(
             'http://example.com/login',
@@ -46,14 +46,14 @@ class LoginFormAuthenticatorSpec extends ObjectBehavior
         $this->login($httpClient);
     }
 
-    function it_should_detect_if_login_is_required_when_the_xpath_match_one_element()
+    public function it_should_detect_if_login_is_required_when_the_xpath_match_one_element()
     {
         $siteConfig = new SiteConfig([
             'notLoggedInXpath' => '//button[@class="sign-in"]',
         ]);
         $this->beConstructedWith($siteConfig);
 
-        $response = new Response(200, [], <<<HTML
+        $response = new Response(200, [], <<<'HTML'
 <html>
 <body>
     <button class="sign-in">Sign in</button>
@@ -64,14 +64,14 @@ HTML
         $this->isLoginRequired($response)->shouldBe(true);
     }
 
-    function it_should_detect_if_login_is_not_required_when_the_xpath_does_not_match_one_element()
+    public function it_should_detect_if_login_is_not_required_when_the_xpath_does_not_match_one_element()
     {
         $siteConfig = new SiteConfig([
             'notLoggedInXpath' => '//button[@class="sign-in"]',
         ]);
         $this->beConstructedWith($siteConfig);
 
-        $response = new Response(200, [], <<<HTML
+        $response = new Response(200, [], <<<'HTML'
 <html>
 <body>
     <button class="sign-out">Logout</button>
@@ -82,14 +82,14 @@ HTML
         $this->isLoginRequired($response)->shouldBe(false);
     }
 
-    function it_should_detect_if_login_is_required_when_the_xpath_is_a_boolean_expression()
+    public function it_should_detect_if_login_is_required_when_the_xpath_is_a_boolean_expression()
     {
         $siteConfig = new SiteConfig([
             'notLoggedInXpath' => 'not(boolean(//button[@class="sign-out"]))',
         ]);
         $this->beConstructedWith($siteConfig);
 
-        $response = new Response(200, [], <<<HTML
+        $response = new Response(200, [], <<<'HTML'
 <html>
 <body>
     <button class="sign-out">Logout</button>

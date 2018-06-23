@@ -52,6 +52,35 @@ class AuthenticatorPlugin implements Plugin
         return new FulfilledPromise($response);
     }
 
+    public function loginIfRequested(ResponseInterface $response)
+    {
+        $config = $this->configBuilder->buildForHost(current($response->getHeader('Host')));
+        if ($config->requiresLogin()) {
+            $authenticator = $this->authenticatorFactory->buildFromSiteConfig($config);
+            if ($authenticator->isLoginRequired($response)) {
+                $this->logger->debug('AuthenticatorPlugin: login required to host', ['host' => $config->getHost()]);
+
+                return $authenticator->login($this->client);
+            }
+        }
+
+        return false;
+    }
+
+    public function isLoggedIn($host)
+    {
+        /** @var Cookie $cookie */
+        foreach ($this->cookieJar as $cookie) {
+            if ($cookie->getDomain() === $host) {
+                $this->logger->debug('AuthenticatorPlugin: already logged', ['host' => $host]);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * @param RequestInterface $request
      *
@@ -66,35 +95,8 @@ class AuthenticatorPlugin implements Plugin
             $authenticator = $this->authenticatorFactory->buildFromSiteConfig($config);
             if (!$this->isLoggedIn($request->getUri()->getHost())) {
                 $this->logger->debug('AuthenticatorPlugin: login to host', ['host' => $host]);
+
                 return $authenticator->login($this->client);
-            }
-        }
-
-        return false;
-    }
-
-    public function loginIfRequested(ResponseInterface $response)
-    {
-        $config = $this->configBuilder->buildForHost(current($response->getHeader('Host')));
-        if ($config->requiresLogin()) {
-            $authenticator = $this->authenticatorFactory->buildFromSiteConfig($config);
-            if ($authenticator->isLoginRequired($response)) {
-                $this->logger->debug('AuthenticatorPlugin: login required to host', ['host' => $config->getHost()]);
-                return $authenticator->login($this->client);
-            }
-
-        }
-
-        return false;
-    }
-
-    public function isLoggedIn($host)
-    {
-        /** @var Cookie $cookie */
-        foreach ($this->cookieJar as $cookie) {
-            if ($cookie->getDomain() === $host) {
-                $this->logger->debug('AuthenticatorPlugin: already logged', ['host' => $host]);
-                return true;
             }
         }
 

@@ -23,7 +23,7 @@ class HttpClientFactory
      * Build the HTTP client to authenticate on the site.
      *
      * @param \BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfigBuilder $siteConfigBuilder
-     * @param HttpClient $client Base HTTP client
+     * @param HttpClient                                               $client            Base HTTP client
      *
      * @return HttpMethodsClient
      */
@@ -57,4 +57,3 @@ class HttpClientFactory
         return new HttpMethodsClient($pluginClient, $messageFactory);
     }
 }
-

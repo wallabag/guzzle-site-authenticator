@@ -75,7 +75,7 @@ class LoginFormAuthenticator implements Authenticator
         $extraFields = [];
 
         foreach ($this->siteConfig->getExtraFields() as $fieldName => $fieldValue) {
-            if (substr($fieldValue, 0, 2) === '@=') {
+            if ('@=' === substr($fieldValue, 0, 2)) {
                 $expressionLanguage = $this->getExpressionLanguage($httpClient);
                 $fieldValue = $expressionLanguage->evaluate(
                     substr($fieldValue, 2),
@@ -93,6 +93,7 @@ class LoginFormAuthenticator implements Authenticator
 
     /**
      * @param HttpMethodsClient $httpClient
+     *
      * @return ExpressionLanguage
      */
     private function getExpressionLanguage(HttpMethodsClient $httpClient)

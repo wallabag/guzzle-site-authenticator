@@ -2,10 +2,10 @@
 
 namespace spec\BD\GuzzleSiteAuthenticator\SiteConfig;
 
+use BD\GuzzleSiteAuthenticator\SiteConfig\ArraySiteConfigBuilder;
 use BD\GuzzleSiteAuthenticator\SiteConfig\NullSiteConfig;
 use BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig;
 use PhpSpec\ObjectBehavior;
-use BD\GuzzleSiteAuthenticator\SiteConfig\ArraySiteConfigBuilder;
 
 class ArraySiteConfigBuilderSpec extends ObjectBehavior
 {
