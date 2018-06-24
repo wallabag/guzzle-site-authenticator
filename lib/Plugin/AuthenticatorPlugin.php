@@ -54,7 +54,12 @@ class AuthenticatorPlugin implements Plugin
 
     public function loginIfRequested(ResponseInterface $response)
     {
-        $config = $this->configBuilder->buildForHost(current($response->getHeader('Host')));
+        $host = current($response->getHeader('Host'));
+        if (false === $host) {
+            return false;
+        }
+
+        $config = $this->configBuilder->buildForHost($host);
         if ($config->requiresLogin()) {
             $authenticator = $this->authenticatorFactory->buildFromSiteConfig($config);
             if ($authenticator->isLoginRequired($response)) {
