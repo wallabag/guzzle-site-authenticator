@@ -1,7 +1,4 @@
 <?php
-/**
- * @license For full copyright and license information view LICENSE file distributed with this source code.
- */
 
 namespace BD\GuzzleSiteAuthenticator\SiteConfig;
 
@@ -27,7 +24,7 @@ class ArraySiteConfigBuilder implements SiteConfigBuilder
     {
         $host = strtolower($host);
 
-        if (substr($host, 0, 4) === 'www.') {
+        if ('www.' === substr($host, 0, 4)) {
             $host = substr($host, 4);
         }
 
@@ -35,6 +32,6 @@ class ArraySiteConfigBuilder implements SiteConfigBuilder
             return $this->configs[$host];
         }
 
-        return false;
+        return new NullSiteConfig();
     }
 }

@@ -9,14 +9,18 @@
         }
     ],
     "require": {
-        "guzzlehttp/guzzle": "^5.2.0",
         "symfony/expression-language": "^3.2",
-        "psr/log": "^1.0"
+        "psr/log": "^1.0",
+        "php-http/client-common": "^1.0",
+        "php-http/discovery": "^1.0"
     },
     "require-dev": {
         "phpspec/phpspec": "^3.0",
         "friendsofphp/php-cs-fixer": "~2.0",
-        "monolog/monolog": "^1.13"
+        "monolog/monolog": "^1.13",
+        "php-http/mock-client": "^1.0",
+        "guzzlehttp/psr7": "^1.4",
+        "php-http/message": "^1.6"
     },
     "autoload": {
         "psr-4": {

@@ -2,8 +2,8 @@ parameters:
     bd_guzzle_site_authenticator.site_config: []
 
 services:
-    bd_guzzle_site_authenticator.authenticator_subscriber:
-        class: BD\GuzzleSiteAuthenticator\Guzzle\AuthenticatorSubscriber
+    bd_guzzle_site_authenticator.authenticator_plugin:
+        class: BD\GuzzleSiteAuthenticator\Plugin\AuthenticatorPlugin
         arguments:
             - "@bd_guzzle_site_authenticator.site_config_builder"
             - "@bd_guzzle_site_authenticator.authenticator_factory"

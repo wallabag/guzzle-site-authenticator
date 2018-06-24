@@ -1,7 +1,4 @@
 <?php
-/**
- * @license For full copyright and license information view LICENSE file distributed with this source code.
- */
 
 namespace BD\GuzzleSiteAuthenticator\SiteConfig;
 
@@ -9,12 +6,11 @@ interface SiteConfigBuilder
 {
     /**
      * Builds the SiteConfig for a host.
+     * If there is not a specific SiteConfig, return a NullSiteConfig.
      *
      * @param string $host The "www." prefix is ignored.
      *
-     * @throws \OutOfRangeException If there is no config for $host
-     *
-     * @return SiteConfig|false
+     * @return SiteConfig
      */
     public function buildForHost($host);
 }
