@@ -28,11 +28,12 @@ class AuthenticatorProvider implements ExpressionFunctionProviderInterface
             $this->getRequestHtmlFunction(),
             $this->getXpathFunction(),
         ];
-        if (version_compare(phpversion(), '7.0.0') >= 0) {
+        if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
             // the function preg_replace has a security issue before version 7 of PHP:
             // the flag "/e" was treating the "replacement" parameter as php code to execute.
             array_push($result, $this->getPregReplaceFunction());
         }
+
         return $result;
     }
 
@@ -56,8 +57,12 @@ class AuthenticatorProvider implements ExpressionFunctionProviderInterface
             function () {
                 throw new Exception('Not supported');
             },
-            function (array $arguments, $pattern , $replacement , $subject, int $limit = -1) {
-                return preg_replace($pattern, $replacement, $subject, intval(strval($limit)));
+            function (array $arguments, $pattern, $replacement, $subject, $limit = null) {
+                if (null === $limit) {
+                    $limit = -1;
+                }
+
+                return preg_replace($pattern, $replacement, $subject, (int) ((string) $limit));
             }
         );
     }
