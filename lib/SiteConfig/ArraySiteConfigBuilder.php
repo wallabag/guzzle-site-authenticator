@@ -27,7 +27,7 @@ class ArraySiteConfigBuilder implements SiteConfigBuilder
     {
         $host = strtolower($host);
 
-        if (substr($host, 0, 4) === 'www.') {
+        if ('www.' === substr($host, 0, 4)) {
             $host = substr($host, 4);
         }
 

@@ -63,7 +63,7 @@ class AuthenticatorSubscriber implements SubscriberInterface, LoggerAwareInterfa
     public function loginIfRequired(BeforeEvent $event)
     {
         $config = $this->buildSiteConfig($event->getRequest());
-        if ($config === false || !$config->requiresLogin()) {
+        if (false === $config || !$config->requiresLogin()) {
             $this->logger->debug('loginIfRequired> will not require login');
 
             return;
@@ -85,7 +85,7 @@ class AuthenticatorSubscriber implements SubscriberInterface, LoggerAwareInterfa
     public function loginIfRequested(CompleteEvent $event)
     {
         $config = $this->buildSiteConfig($event->getRequest());
-        if ($config === false || !$config->requiresLogin()) {
+        if (false === $config || !$config->requiresLogin()) {
             $this->logger->debug('loginIfRequested> will not require login');
 
             return;
