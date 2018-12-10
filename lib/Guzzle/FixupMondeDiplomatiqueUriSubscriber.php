@@ -30,7 +30,7 @@ class FixupMondeDiplomatiqueUriSubscriber implements SubscriberInterface
         }
 
         $uri = $response->getHeader('Location');
-        if (($badParameter = strstr($uri, 'retour=http://')) === false) {
+        if (false === ($badParameter = strstr($uri, 'retour=http://'))) {
             return;
         }
 

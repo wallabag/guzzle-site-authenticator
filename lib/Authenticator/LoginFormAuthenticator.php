@@ -90,7 +90,7 @@ class LoginFormAuthenticator implements Authenticator
         $extraFields = [];
 
         foreach ($this->siteConfig->getExtraFields() as $fieldName => $fieldValue) {
-            if (substr($fieldValue, 0, 2) === '@=') {
+            if ('@=' === substr($fieldValue, 0, 2)) {
                 $expressionLanguage = $this->getExpressionLanguage($guzzle);
                 $fieldValue = $expressionLanguage->evaluate(
                     substr($fieldValue, 2),
