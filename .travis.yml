@@ -23,8 +23,12 @@ before_script:
     - composer install --no-interaction -o --no-progress --prefer-dist
 
 script:
-    - php ./bin/phpspec run --format=pretty
+    - mkdir -p build/logs
+    - php ./bin/simple-phpunit -v --coverage-clover build/logs/clover.xml
     - if [ "$CS_FIXER" = "run" ]; then php bin/php-cs-fixer fix --verbose --dry-run ; fi;
 
 notification:
     email: false
+
+after_script:
+    - php ./bin/coveralls -v

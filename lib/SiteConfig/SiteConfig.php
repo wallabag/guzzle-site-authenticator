@@ -59,7 +59,7 @@ class SiteConfig
      *
      * @var array
      */
-    protected $extraFields;
+    protected $extraFields = [];
 
     /**
      * Username to use for login.
@@ -86,8 +86,9 @@ class SiteConfig
     {
         foreach ($properties as $propertyName => $propertyValue) {
             if (!property_exists($this, $propertyName)) {
-                throw new InvalidArgumentException("Unknown property $propertyName");
+                throw new InvalidArgumentException('Unknown property: "' . $propertyName . '"');
             }
+
             $this->$propertyName = $propertyValue;
         }
     }

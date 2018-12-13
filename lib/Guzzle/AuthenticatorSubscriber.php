@@ -94,7 +94,7 @@ class AuthenticatorSubscriber implements SubscriberInterface, LoggerAwareInterfa
         $authenticator = $this->authenticatorFactory->buildFromSiteConfig($config);
         $isLoginRequired = $authenticator->isLoginRequired($event->getResponse()->getBody());
 
-        $this->logger->debug('loginIfRequested> retry #' . self::$retries . ' with login ' . ($isLoginRequired ?: 'not ') . 'required');
+        $this->logger->debug('loginIfRequested> retry #' . self::$retries . ' with login ' . ($isLoginRequired ? '' : 'not ') . 'required');
 
         if ($isLoginRequired && self::$retries < self::MAX_RETRIES) {
             $client = $event->getClient();

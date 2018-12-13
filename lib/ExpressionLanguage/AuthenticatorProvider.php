@@ -27,12 +27,8 @@ class AuthenticatorProvider implements ExpressionFunctionProviderInterface
         $result = [
             $this->getRequestHtmlFunction(),
             $this->getXpathFunction(),
+            $this->getPregMatchFunction(),
         ];
-        if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
-            // the function preg_replace has a security issue before version 7 of PHP:
-            // the flag "/e" was treating the "replacement" parameter as php code to execute.
-            array_push($result, $this->getPregReplaceFunction());
-        }
 
         return $result;
     }
@@ -50,19 +46,21 @@ class AuthenticatorProvider implements ExpressionFunctionProviderInterface
         );
     }
 
-    private function getPregReplaceFunction()
+    private function getPregMatchFunction()
     {
         return new ExpressionFunction(
-            'preg_replace',
+            'preg_match',
             function () {
                 throw new Exception('Not supported');
             },
-            function (array $arguments, $pattern, $replacement, $subject, $limit = null) {
-                if (null === $limit) {
-                    $limit = -1;
+            function (array $arguments, $pattern, $html) {
+                preg_match($pattern, $html, $matches);
+
+                if (2 !== \count($matches)) {
+                    return '';
                 }
 
-                return preg_replace($pattern, $replacement, $subject, (int) ((string) $limit));
+                return $matches[1];
             }
         );
     }
@@ -78,13 +76,22 @@ class AuthenticatorProvider implements ExpressionFunctionProviderInterface
                 $useInternalErrors = libxml_use_internal_errors(true);
 
                 $doc = new \DOMDocument();
-                $doc->loadHTML($html, LIBXML_NOCDATA | LIBXML_NOWARNING | LIBXML_NOERROR);
+                $doc->loadHTML((string) $html, LIBXML_NOCDATA | LIBXML_NOWARNING | LIBXML_NOERROR);
 
                 $xpath = new \DOMXPath($doc);
                 $domNodeList = $xpath->query($xpathQuery);
+
+                if (0 === $domNodeList->length) {
+                    return '';
+                }
+
                 $domNode = $domNodeList->item(0);
 
                 libxml_use_internal_errors($useInternalErrors);
+
+                if (null === $domNode || null === $domNode->attributes) {
+                    return '';
+                }
 
                 return $domNode->attributes->getNamedItem('value')->nodeValue;
             }

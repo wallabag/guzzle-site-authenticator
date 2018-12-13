@@ -1,5 +1,0 @@
-suites:
-  default:
-    namespace: BD\GuzzleSiteAuthenticator
-    psr4_prefix: BD\GuzzleSiteAuthenticator
-    src_path: lib
