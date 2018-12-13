@@ -59,7 +59,7 @@ class SiteConfig
      *
      * @var array
      */
-    protected $extraFields;
+    protected $extraFields = [];
 
     /**
      * Username to use for login.
