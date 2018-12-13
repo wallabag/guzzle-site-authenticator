@@ -71,6 +71,7 @@ class LoginFormAuthenticatorTest extends TestCase
         $this->assertInstanceOf(LoginFormAuthenticator::class, $res);
     }
 
+    // testing preg_match
     public function testLoginPostWithExtraFieldsWithRegex()
     {
         $response = $this->getMockBuilder('GuzzleHttp\Message\Response')

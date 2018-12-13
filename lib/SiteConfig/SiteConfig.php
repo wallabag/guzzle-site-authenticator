@@ -86,8 +86,9 @@ class SiteConfig
     {
         foreach ($properties as $propertyName => $propertyValue) {
             if (!property_exists($this, $propertyName)) {
-                throw new InvalidArgumentException("Unknown property $propertyName");
+                throw new InvalidArgumentException('Unknown property: "' . $propertyName . '"');
             }
+
             $this->$propertyName = $propertyValue;
         }
     }
