@@ -78,8 +78,6 @@ class SiteConfig
     /**
      * SiteConfig constructor. Sets the properties by name given a hash.
      *
-     * @param array $properties
-     *
      * @throws \InvalidArgumentException if a property doesn't exist
      */
     public function __construct(array $properties = [])

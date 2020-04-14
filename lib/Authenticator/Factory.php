@@ -10,8 +10,6 @@ use BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig;
 class Factory
 {
     /**
-     * @param SiteConfig $siteConfig
-     *
      * @return Authenticator
      *
      * @throw \OutOfRangeException if there are no credentials for this host

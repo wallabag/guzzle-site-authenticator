@@ -85,8 +85,6 @@ class LoginFormAuthenticator implements Authenticator
      * Returns extra fields from the configuration.
      * Evaluates any field value that is an expression language string.
      *
-     * @param ClientInterface $guzzle
-     *
      * @return array
      */
     private function getExtraFields(ClientInterface $guzzle)
