@@ -33,9 +33,6 @@ class AuthenticatorSubscriber implements SubscriberInterface, LoggerAwareInterfa
 
     /**
      * AuthenticatorSubscriber constructor.
-     *
-     * @param SiteConfigBuilder $configBuilder
-     * @param Factory           $authenticatorFactory
      */
     public function __construct(SiteConfigBuilder $configBuilder, Factory $authenticatorFactory)
     {

@@ -9,16 +9,12 @@ interface Authenticator
     /**
      * Logs the configured user on the given Guzzle client.
      *
-     * @param ClientInterface $guzzle
-     *
      * @return self
      */
     public function login(ClientInterface $guzzle);
 
     /**
      * Checks if we are logged into the site, but without calling the server (e.g. do we have a Cookie).
-     *
-     * @param ClientInterface $guzzle
      *
      * @return bool
      */
