@@ -1,6 +1,7 @@
 {
     "name": "bdunogier/guzzle-site-authenticator",
     "description": "A guzzle plugin that adds, if necessary, authentication data to requests. Uses credentials and cookies, with login requests to the sites.",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
