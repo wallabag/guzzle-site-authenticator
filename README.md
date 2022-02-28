@@ -1,8 +1,6 @@
 # Guzzle site authenticator
 
-[![Build Status](https://travis-ci.org/wallabag/guzzle-site-authenticator.svg)](https://travis-ci.org/wallabag/guzzle-site-authenticator)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/wallabag/guzzle-site-authenticator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/wallabag/guzzle-site-authenticator/?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/wallabag/guzzle-site-authenticator/badge.svg?branch=dump-phpspec)](https://coveralls.io/github/wallabag/guzzle-site-authenticator?branch=dump-phpspec)
+[![CI](https://github.com/wallabag/guzzle-site-authenticator/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/wallabag/guzzle-site-authenticator/actions/workflows/continuous-integration.yml)
 
 This package is a plugin for [guzzle](http://packagist.org/packages/guzzlehttp/guzzle) 5.x. It provides a subscriber
 that can authenticate requests by posting login information.

@@ -76,7 +76,7 @@ class AuthenticatorProvider implements ExpressionFunctionProviderInterface
                 $useInternalErrors = libxml_use_internal_errors(true);
 
                 $doc = new \DOMDocument();
-                $doc->loadHTML((string) $html, LIBXML_NOCDATA | LIBXML_NOWARNING | LIBXML_NOERROR);
+                $doc->loadHTML((string) $html, \LIBXML_NOCDATA | \LIBXML_NOWARNING | \LIBXML_NOERROR);
 
                 $xpath = new \DOMXPath($doc);
                 $domNodeList = $xpath->query($xpathQuery);
