@@ -70,7 +70,7 @@ class LoginFormAuthenticator implements Authenticator
         $doc->loadHTML($html);
 
         $xpath = new \DOMXPath($doc);
-        $loggedIn = $xpath->evaluate($this->siteConfig->getNotLoggedInXpath());
+        $loggedIn = $xpath->evaluate((string) $this->siteConfig->getNotLoggedInXpath());
 
         if (false === $loggedIn) {
             return false;

@@ -19,7 +19,7 @@ class AuthenticatorSubscriber implements SubscriberInterface, LoggerAwareInterfa
 {
     // avoid loop when login failed which can just be a bad login/password
     // after 2 attempts, we skip the login
-    const MAX_RETRIES = 2;
+    public const MAX_RETRIES = 2;
     private static $retries = 0;
 
     /** @var SiteConfigBuilder */
