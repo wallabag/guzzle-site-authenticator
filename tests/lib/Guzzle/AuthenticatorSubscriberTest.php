@@ -270,4 +270,55 @@ class AuthenticatorSubscriberTest extends TestCase
         $this->assertCount(1, $records);
         $this->assertSame('loginIfRequested> retry #0 with login required', $records[0]['message']);
     }
+
+    public function testLoginIfRequestedRedirect()
+    {
+        $factory = $this->getMockBuilder('BD\GuzzleSiteAuthenticator\Authenticator\Factory')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $builder = new ArraySiteConfigBuilder(['example.com' => [
+            'requiresLogin' => true,
+            'notLoggedInXpath' => '//html',
+        ]]);
+        $subscriber = new AuthenticatorSubscriber($builder, $factory);
+
+        $logger = new Logger('foo');
+        $handler = new TestHandler();
+        $logger->pushHandler($handler);
+
+        $subscriber->setLogger($logger);
+
+        $response = new Response(
+            301,
+            [],
+            Stream::factory('')
+        );
+        $guzzle = new Client();
+        $guzzle->getEmitter()->attach(new Mock([$response]));
+        $request = new Request('GET', 'http://www.example.com');
+
+        $event = $this->getMockBuilder('GuzzleHttp\Event\CompleteEvent')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $event->expects($this->once())
+            ->method('getResponse')
+            ->willReturn($response);
+
+        $event->expects($this->once())
+            ->method('getRequest')
+            ->willReturn($request);
+
+        $event->expects($this->any())
+            ->method('getClient')
+            ->willReturn($guzzle);
+
+        $subscriber->loginIfRequested($event);
+
+        $records = $handler->getRecords();
+
+        $this->assertCount(1, $records);
+        $this->assertSame('loginIfRequested> empty body, ignoring', $records[0]['message']);
+    }
 }
