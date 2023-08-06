@@ -18,7 +18,7 @@ class AuthenticatorProvider implements ExpressionFunctionProviderInterface
         $this->guzzle = $guzzle;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         $result = [
             $this->getRequestHtmlFunction(),

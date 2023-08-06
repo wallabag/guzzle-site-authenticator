@@ -13,7 +13,7 @@ use GuzzleHttp\Event\SubscriberInterface;
  */
 class FixupMondeDiplomatiqueUriSubscriber implements SubscriberInterface
 {
-    public function getEvents()
+    public function getEvents(): array
     {
         return ['complete' => [['fixUri', 500]]];
     }

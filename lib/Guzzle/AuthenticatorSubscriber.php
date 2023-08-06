@@ -41,12 +41,12 @@ class AuthenticatorSubscriber implements SubscriberInterface, LoggerAwareInterfa
         $this->logger = new NullLogger();
     }
 
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }
 
-    public function getEvents()
+    public function getEvents(): array
     {
         return [
             'before' => ['loginIfRequired'],
