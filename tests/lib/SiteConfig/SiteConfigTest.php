@@ -3,7 +3,6 @@
 namespace Tests\BD\GuzzleSiteAuthenticator\SiteConfig;
 
 use BD\GuzzleSiteAuthenticator\SiteConfig\SiteConfig;
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class SiteConfigTest extends TestCase
@@ -17,7 +16,7 @@ class SiteConfigTest extends TestCase
 
     public function testUnknownProperty()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Unknown property: "bad"');
 
         new SiteConfig(['bad' => true]);

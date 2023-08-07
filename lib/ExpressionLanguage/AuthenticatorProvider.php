@@ -2,7 +2,6 @@
 
 namespace BD\GuzzleSiteAuthenticator\ExpressionLanguage;
 
-use Exception;
 use GuzzleHttp\ClientInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
@@ -19,9 +18,6 @@ class AuthenticatorProvider implements ExpressionFunctionProviderInterface
         $this->guzzle = $guzzle;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getFunctions()
     {
         $result = [
@@ -38,7 +34,7 @@ class AuthenticatorProvider implements ExpressionFunctionProviderInterface
         return new ExpressionFunction(
             'request_html',
             function () {
-                throw new Exception('Not supported');
+                throw new \Exception('Not supported');
             },
             function (array $arguments, $uri, array $options = []) {
                 return $this->guzzle->get($uri, $options)->getBody();
@@ -51,7 +47,7 @@ class AuthenticatorProvider implements ExpressionFunctionProviderInterface
         return new ExpressionFunction(
             'preg_match',
             function () {
-                throw new Exception('Not supported');
+                throw new \Exception('Not supported');
             },
             function (array $arguments, $pattern, $html) {
                 preg_match($pattern, $html, $matches);
@@ -70,7 +66,7 @@ class AuthenticatorProvider implements ExpressionFunctionProviderInterface
         return new ExpressionFunction(
             'xpath',
             function () {
-                throw new Exception('Not supported');
+                throw new \Exception('Not supported');
             },
             function (array $arguments, $xpathQuery, $html) {
                 $useInternalErrors = libxml_use_internal_errors(true);

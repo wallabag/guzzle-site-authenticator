@@ -20,9 +20,6 @@ class ArraySiteConfigBuilder implements SiteConfigBuilder
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildForHost($host)
     {
         $host = strtolower($host);

@@ -46,9 +46,6 @@ class AuthenticatorSubscriber implements SubscriberInterface, LoggerAwareInterfa
         $this->logger = $logger;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getEvents()
     {
         return [

@@ -104,7 +104,7 @@ class LoginFormAuthenticatorTest extends TestCase
                     'allow_redirects' => true,
                     'verify' => false,
                 ])
-           )
+            )
             ->willReturn($response);
 
         $client->expects($this->any())
@@ -166,7 +166,7 @@ class LoginFormAuthenticatorTest extends TestCase
                     'allow_redirects' => true,
                     'verify' => false,
                 ])
-           )
+            )
             ->willReturn($response);
 
         $client->expects($this->any())
