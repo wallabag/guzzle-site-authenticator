@@ -11,17 +11,27 @@ env:
 
 jobs:
   phpunit:
-    name: "PHP ${{ matrix.php }}"
+    name: "PHP ${{ matrix.php }} / Symfony ${{ matrix.symfony }} / Flags ${{ matrix.flags }}"
     runs-on: "ubuntu-20.04"
 
     strategy:
       fail-fast: false
       matrix:
         php:
-          - "7.2"
-          - "7.3"
           - "7.4"
           - "8.0"
+          - "8.1"
+          - "8.2"
+        symfony:
+          - "4.*"
+          - "5.*"
+          - "6.*"
+        flags:
+          - "--prefer-dist"
+          - "--prefer-dist --prefer-lowest"
+        exclude:
+          - php: "7.4"
+            symfony: "6.*"
 
     steps:
       - name: "Checkout"
@@ -34,13 +44,15 @@ jobs:
         with:
           php-version: "${{ matrix.php }}"
           coverage: none
-          tools: pecl, composer:v2
+          tools: flex, pecl, composer:v2
           ini-values: "date.timezone=Europe/Paris"
 
       - name: "Install dependencies with Composer"
+        env:
+          SYMFONY_REQUIRE: "${{ matrix.symfony }}"
         uses: "ramsey/composer-install@v2"
         with:
-          composer-options: "--optimize-autoloader --prefer-dist"
+          composer-options: "--optimize-autoloader ${{ matrix.flags }}"
 
       - name: "Run PHPUnit"
         run: "php vendor/bin/simple-phpunit -v"

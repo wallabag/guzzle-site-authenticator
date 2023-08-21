@@ -5,8 +5,6 @@
 
 namespace BD\GuzzleSiteAuthenticator\SiteConfig;
 
-use InvalidArgumentException;
-
 /**
  * Authentication configuration for a site.
  */
@@ -84,7 +82,7 @@ class SiteConfig
     {
         foreach ($properties as $propertyName => $propertyValue) {
             if (!property_exists($this, $propertyName)) {
-                throw new InvalidArgumentException('Unknown property: "' . $propertyName . '"');
+                throw new \InvalidArgumentException('Unknown property: "' . $propertyName . '"');
             }
 
             $this->$propertyName = $propertyValue;
@@ -231,17 +229,12 @@ class SiteConfig
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getUsername()
     {
         return $this->username;
     }
 
     /**
-     * @param mixed $username
-     *
      * @return SiteConfig
      */
     public function setUsername($username)

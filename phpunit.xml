@@ -10,6 +10,10 @@
     bootstrap="vendor/autoload.php"
     >
 
+    <php>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="999999" />
+    </php>
+
     <testsuites>
         <testsuite name="Guzzle Site Authenticator">
             <directory>./tests</directory>
